@@ -31,7 +31,7 @@ namespace adventure_through_the_knight.Output
             spriteBatch.Draw(texture, position, Color.White);
         }
 
-        public void Update(KeyboardState keyboardState, GameTime gameTime)
+        public virtual void Update(KeyboardState keyboardState, GameTime gameTime)
         {
             position += (Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds);
         }

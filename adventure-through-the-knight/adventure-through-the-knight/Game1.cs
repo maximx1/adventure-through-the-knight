@@ -24,7 +24,7 @@ namespace adventure_through_the_knight
 
         InputController InputManager;
         Color ScreenColor;
-
+        Player player;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -58,7 +58,7 @@ namespace adventure_through_the_knight
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            player = new Player(Content.Load<Texture2D>("player1"), Vector2.Zero);
             // TODO: use this.Content to load your game content here
         }
 
@@ -94,7 +94,7 @@ namespace adventure_through_the_knight
                 ScreenColor = Color.Red;
             else
                 ScreenColor = Color.White;
-
+            player.Update(Keyboard.GetState(), gameTime);
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -110,7 +110,11 @@ namespace adventure_through_the_knight
 
             //Add game character here for testing
 
-            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+
+            player.Draw(spriteBatch);
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
