@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
 using adventure_through_the_knight.Input;
+using adventure_through_the_knight.Output;
 
 namespace adventure_through_the_knight
 {
@@ -106,6 +107,8 @@ namespace adventure_through_the_knight
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(ScreenColor);
+
+            //Add game character here for testing
 
             // TODO: Add your drawing code here
 
