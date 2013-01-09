@@ -11,8 +11,8 @@ namespace adventure_through_the_knight.Input
     {
         //Active input functions
         private bool Pause;
-        private bool Forward;
-        private bool Backwards;
+        private bool Up;
+        private bool Down;
         private bool Left;
         private bool Right;
 
@@ -29,7 +29,10 @@ namespace adventure_through_the_knight.Input
             InputKeyboard = Keyboard.GetState();
 
             Pause = InputKeyboard.IsKeyDown(Keys.Escape) ? true : false;
-
+            Up = InputKeyboard.IsKeyDown(Keys.W) ? true : false;
+            Down = InputKeyboard.IsKeyDown(Keys.S) ? true : false;
+            Left = InputKeyboard.IsKeyDown(Keys.A) ? true : false;
+            Right = InputKeyboard.IsKeyDown(Keys.D) ? true : false;
         }
 
         /// <summary>
@@ -46,7 +49,7 @@ namespace adventure_through_the_knight.Input
         /// <value>
         /// <c>true</c> if FORWAR; otherwise, <c>false</c>.
         /// </value>
-        public bool FORWARD { get { return Forward; } }
+        public bool UP { get { return Up; } }
 
         /// <summary>
         /// Gets a value indicating whether this <see cref="RPGGame.InputController"/> is BACKWARD.
@@ -54,7 +57,7 @@ namespace adventure_through_the_knight.Input
         /// <value>
         /// <c>true</c> if BACKWARD; otherwise, <c>false</c>.
         /// </value>
-        public bool BACKWARDS { get { return Backwards; } }
+        public bool DOWN { get { return Down; } }
 
         /// <summary>
         /// Gets a value indicating whether this <see cref="RPGGame.InputController"/> is LEF.

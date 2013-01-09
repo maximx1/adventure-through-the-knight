@@ -21,6 +21,8 @@ namespace adventure_through_the_knight
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        Color ScreenColor;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -41,6 +43,7 @@ namespace adventure_through_the_knight
             base.Initialize();
             graphics.PreferredBackBufferHeight = 600;
             graphics.PreferredBackBufferWidth = 800;
+            ScreenColor = Color.White;
         }
 
         /// <summary>
@@ -75,6 +78,21 @@ namespace adventure_through_the_knight
             // Allows the game to exit
             if(input.PAUSE)
                 Exit();
+            if (input.LEFT)
+                ScreenColor = Color.Blue;
+            else
+            {
+                if (input.RIGHT)
+                    ScreenColor = Color.Yellow;
+            }
+
+            if (input.UP)
+                ScreenColor = Color.Green;
+            else
+            {
+                if (input.DOWN)
+                    ScreenColor = Color.Red;
+            }
 
             // TODO: Add your update logic here
 
@@ -87,7 +105,7 @@ namespace adventure_through_the_knight
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Chartreuse);
 
             // TODO: Add your drawing code here
 
