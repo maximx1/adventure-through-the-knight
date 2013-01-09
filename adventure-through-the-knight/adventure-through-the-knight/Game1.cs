@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+using adventure_through_the_knight.Input;
+
 namespace adventure_through_the_knight
 {
     /// <summary>
@@ -19,10 +21,16 @@ namespace adventure_through_the_knight
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        InputController InputManager;
+        Color ScreenColor;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.IsFullScreen = false;				//Turn off full screen.
+            //InputManager = new InputController();
+            InputManager = new InputController(InputController.InputDeviceType.KEYBOARD);
         }
 
         /// <summary>
@@ -36,6 +44,9 @@ namespace adventure_through_the_knight
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferWidth = 800;
+            ScreenColor = Color.White;
         }
 
         /// <summary>
@@ -66,9 +77,22 @@ namespace adventure_through_the_knight
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            InputManager.GetState();
+
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
+            if (InputManager.PAUSE)
+                Exit();
+
+            if (InputManager.LEFT)
+                ScreenColor = Color.Blue;
+            else if (InputManager.RIGHT)
+                ScreenColor = Color.Yellow;
+            else if (InputManager.UP)
+                ScreenColor = Color.Green;
+            else if (InputManager.DOWN)
+                ScreenColor = Color.Red;
+            else
+                ScreenColor = Color.White;
 
             // TODO: Add your update logic here
 
@@ -81,7 +105,7 @@ namespace adventure_through_the_knight
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(ScreenColor);
 
             // TODO: Add your drawing code here
 
