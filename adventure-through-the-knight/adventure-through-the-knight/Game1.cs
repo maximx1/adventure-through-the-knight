@@ -21,6 +21,7 @@ namespace adventure_through_the_knight
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        InputController InputManager;
         Color ScreenColor;
 
         public Game1()
@@ -28,6 +29,8 @@ namespace adventure_through_the_knight
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             graphics.IsFullScreen = false;				//Turn off full screen.
+            //InputManager = new InputController();
+            InputManager = new InputController(InputController.InputDeviceType.KEYBOARD);
         }
 
         /// <summary>
@@ -74,25 +77,22 @@ namespace adventure_through_the_knight
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            InputController input = new InputController();
-            // Allows the game to exit
-            if(input.PAUSE)
-                Exit();
-            if (input.LEFT)
-                ScreenColor = Color.Blue;
-            else
-            {
-                if (input.RIGHT)
-                    ScreenColor = Color.Yellow;
-            }
+            InputManager.GetState();
 
-            if (input.UP)
+            // Allows the game to exit
+            if (InputManager.PAUSE)
+                Exit();
+
+            if (InputManager.LEFT)
+                ScreenColor = Color.Blue;
+            else if (InputManager.RIGHT)
+                ScreenColor = Color.Yellow;
+            else if (InputManager.UP)
                 ScreenColor = Color.Green;
+            else if (InputManager.DOWN)
+                ScreenColor = Color.Red;
             else
-            {
-                if (input.DOWN)
-                    ScreenColor = Color.Red;
-            }
+                ScreenColor = Color.White;
 
             // TODO: Add your update logic here
 
@@ -105,7 +105,7 @@ namespace adventure_through_the_knight
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Chartreuse);
+            GraphicsDevice.Clear(ScreenColor);
 
             // TODO: Add your drawing code here
 

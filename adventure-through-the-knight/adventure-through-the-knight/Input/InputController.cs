@@ -17,22 +17,43 @@ namespace adventure_through_the_knight.Input
         private bool Right;
 
         //Constant states for all input devices
+        private InputDeviceType InputType;
         private KeyboardState InputKeyboard;
+        private GamePadState InputGamepad;
+
+        //Input Type register
+        public enum InputDeviceType { KEYBOARD, GAMEPAD };
 
         //TODO: Add state for xbox 360 controller
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RPGGame.InputController"/> class.
         /// </summary>
-        public InputController()
+        /// <param name="inputType">The input device type. Defaults the keyboard if you send empty or null.</param>
+        public InputController(InputDeviceType inputType)
         {
-            InputKeyboard = Keyboard.GetState();
+            InputType = inputType;
 
-            Pause = InputKeyboard.IsKeyDown(Keys.Escape) ? true : false;
-            Up = InputKeyboard.IsKeyDown(Keys.W) ? true : false;
-            Down = InputKeyboard.IsKeyDown(Keys.S) ? true : false;
-            Left = InputKeyboard.IsKeyDown(Keys.A) ? true : false;
-            Right = InputKeyboard.IsKeyDown(Keys.D) ? true : false;
+            InputKeyboard = InputType == InputDeviceType.KEYBOARD ? Keyboard.GetState() : new KeyboardState();
+
+            //Add Gamepad code using the same format. Can't remember off the top of my head.
+            //InputGamepad = InputType == InputDeviceType.GAMEPAD ? (new G
+        }
+
+        /// <summary>
+        /// Gets the state of the user's input device.
+        /// </summary>
+        public void GetState()
+        {
+            if (InputType == InputDeviceType.KEYBOARD)
+            {
+                InputKeyboard = Keyboard.GetState();
+                Pause = InputKeyboard.IsKeyDown(Keys.Escape) ? true : false;
+                Up = InputKeyboard.IsKeyDown(Keys.W) ? true : false;
+                Down = InputKeyboard.IsKeyDown(Keys.S) ? true : false;
+                Left = InputKeyboard.IsKeyDown(Keys.A) ? true : false;
+                Right = InputKeyboard.IsKeyDown(Keys.D) ? true : false;
+            }
         }
 
         /// <summary>

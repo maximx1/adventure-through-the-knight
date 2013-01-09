@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "adventure-through-the-knight", "adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight.csproj", "{09122BE3-D9B9-4081-878C-3214C517CA69}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "adventure-through-the-knightContent", "adventure-through-the-knight\adventure-through-the-knightContent\adventure-through-the-knightContent.contentproj", "{0C282E53-E1EC-4B2B-8A8B-42ECED41C3A4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "adventure-through-the-knightContent", "adventure-through-the-knight\adventure-through-the-knightContent\adventure-through-the-knightContent.contentproj", "{0C282E53-E1EC-4B2B-8A8B-42ECED41C3A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing Fields", "Testing Fields\Testing Fields.csproj", "{CA5C07EC-7C98-4104-A2DC-38E125B5566B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +19,10 @@ Global
 		{09122BE3-D9B9-4081-878C-3214C517CA69}.Release|x86.Build.0 = Release|x86
 		{0C282E53-E1EC-4B2B-8A8B-42ECED41C3A4}.Debug|x86.ActiveCfg = Debug|x86
 		{0C282E53-E1EC-4B2B-8A8B-42ECED41C3A4}.Release|x86.ActiveCfg = Release|x86
+		{CA5C07EC-7C98-4104-A2DC-38E125B5566B}.Debug|x86.ActiveCfg = Debug|x86
+		{CA5C07EC-7C98-4104-A2DC-38E125B5566B}.Debug|x86.Build.0 = Debug|x86
+		{CA5C07EC-7C98-4104-A2DC-38E125B5566B}.Release|x86.ActiveCfg = Release|x86
+		{CA5C07EC-7C98-4104-A2DC-38E125B5566B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
