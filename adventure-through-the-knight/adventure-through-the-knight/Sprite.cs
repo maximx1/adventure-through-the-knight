@@ -13,9 +13,26 @@ namespace adventure_through_the_knight
 {
     class Sprite
     {
-        public Sprite(Texture2D Texture, Vector2 Position)
+        private Vector2 position;
+        private readonly Texture2D texture;
+        protected Vector2 Velocity { get; set; }
+
+        protected float Speed { get; set; }
+
+        public Sprite(Texture2D texture, Vector2 position)
         {
-            throw new NotImplementedException();
+            this.position = position;
+            this.texture = texture;
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(texture, position, Color.White);
+        }
+
+        public void Update(KeyboardState keyboardState, GameTime gameTime)
+        {
+            position += (Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds);
         }
     }
 }
