@@ -17,3 +17,4 @@ C:\Users\Nate\Documents\GitHub\adventure-through-the-knight\adventure-through-th
 C:\Users\Nate\Documents\GitHub\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\obj\x86\Debug\adventure-through-the-knight.exe
 C:\Users\Nate\Documents\GitHub\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\obj\x86\Debug\adventure-through-the-knight.pdb
 C:\Users\Nate\Documents\GitHub\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\bin\x86\Debug\Content\player1.xnb
+C:\Documents and Settings\Development016\My Documents\GameDev\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\bin\x86\Debug\Content\player1.xnb

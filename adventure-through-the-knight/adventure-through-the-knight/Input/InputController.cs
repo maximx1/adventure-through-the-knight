@@ -15,6 +15,8 @@ namespace adventure_through_the_knight.Input
         private bool Down;
         private bool Left;
         private bool Right;
+        private float SpeedX;
+        private float SpeedY;
 
         //Constant states for all input devices
         private InputDeviceType InputType;
@@ -34,10 +36,11 @@ namespace adventure_through_the_knight.Input
         {
             InputType = inputType;
 
+            //First Player keyboard
             InputKeyboard = InputType == InputDeviceType.KEYBOARD ? Keyboard.GetState() : new KeyboardState();
-
-            //Add Gamepad code using the same format. Can't remember off the top of my head.
-            //InputGamepad = InputType == InputDeviceType.GAMEPAD ? (new G
+            //First Player gamepad
+            InputGamepad = InputType == InputDeviceType.GAMEPAD ? GamePad.GetState(PlayerIndex.One) : new GamePadState();
+            
         }
 
         /// <summary>
@@ -53,6 +56,39 @@ namespace adventure_through_the_knight.Input
                 Down = InputKeyboard.IsKeyDown(Keys.S) ? true : false;
                 Left = InputKeyboard.IsKeyDown(Keys.A) ? true : false;
                 Right = InputKeyboard.IsKeyDown(Keys.D) ? true : false;
+
+                //Set the speed quantity to max for the keyboard
+                SpeedY = Up ? 1 : 0;
+                SpeedY = Down ? -1 : 0;
+                SpeedX = Right ? 1 : 0;
+                SpeedX = Left ? 1 : 0;
+            }
+
+            if (InputType == InputDeviceType.GAMEPAD)
+            {
+                InputGamepad = GamePad.GetState(PlayerIndex.One);
+
+                Pause = InputGamepad.Buttons.Start == ButtonState.Pressed ? true : false;
+                if (InputGamepad.ThumbSticks.Left.X > .1f)
+                {
+                    Up = true;
+                    SpeedX = InputGamepad.ThumbSticks.Left.X;
+                }
+                else if (InputGamepad.ThumbSticks.Left.X < -.1f)
+                {
+                    Down = true;
+                    SpeedX = InputGamepad.ThumbSticks.Left.X;
+                }
+                else if (InputGamepad.ThumbSticks.Left.X < -.1f)
+                {
+                    Left = true;
+                    SpeedY = InputGamepad.ThumbSticks.Left.Y;
+                }
+                else if (InputGamepad.ThumbSticks.Left.X > .1f)
+                {
+                    Right = true;
+                    SpeedX = InputGamepad.ThumbSticks.Left.Y;
+                }
             }
         }
 
@@ -95,5 +131,15 @@ namespace adventure_through_the_knight.Input
         /// <c>true</c> if RIGH; otherwise, <c>false</c>.
         /// </value>
         public bool RIGHT { get { return Right; } }
+
+        /// <summary>
+        /// Gets the degree of speed for the x direction
+        /// </summary>
+        public float SPEEDX { get { return SpeedX; } }
+
+        /// <summary>
+        /// Gets the degree of speed for the y direction
+        /// </summary>
+        public float SPEEDY { get { return SpeedY; } }
     }
 }

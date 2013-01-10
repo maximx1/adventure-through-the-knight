@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
 using adventure_through_the_knight.Input;
-using adventure_through_the_knight.Output;
+using adventure_through_the_knight.Output.Character;
 
 namespace adventure_through_the_knight
 {
