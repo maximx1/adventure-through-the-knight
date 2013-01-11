@@ -1,0 +1,13 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="adventure-through-the-knight-mono/Game1.cs">
+    <Files>
+      <File FileName="adventure-through-the-knight-mono/Game1.cs" Line="11" Column="39" />
+      <File FileName="adventure-through-the-knight-mono/Program.cs" Line="7" Column="39" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
