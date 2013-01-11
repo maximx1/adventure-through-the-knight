@@ -19,7 +19,7 @@ namespace adventure_through_the_knight.Output.Character
         private bool moved;
 
         public Player(Texture2D texture, Vector2 position, Rectangle movementBounds)
-            : base(texture, position, movementBounds)
+            : base(texture, position, movementBounds, 1, 4, 14)
         {
             this.Speed = 100;
         }

@@ -11,33 +11,22 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 namespace adventure_through_the_knight.Output
 {
-    class SpriteSheetCalculator
+    static class SpriteSheetCalculator
     {
-        private int height;
-        private int width;
-        private const double TimeToNextChange = 0.5;
-        private int currentRect = 0;
-
-        public SpriteSheetCalculator(int width, int height)
+        public static Rectangle CalculateSourceRect(int textureWidth, int textureHeight, int columns, int rows, int currentFrame)
         {
-            this.height = height;
-            this.width = width;
+            var imageWidth = textureWidth / columns;
+            var imageHeight = textureHeight / rows;
+
+            var currentRow = currentFrame / columns;
+            var currentColumn = currentFrame % columns;
+
+            return new Rectangle(imageWidth * currentColumn, imageHeight * currentRow, imageWidth, imageHeight);
         }
 
-        public Rectangle GetSourceRectangle(GameTime gameTime)
+        public static Rectangle CalculateDestinationRect(Vector2 position, Rectangle sourceRectangle)
         {
-            // Just walking down for now
-
-            int previousRect = currentRect;
-            if (gameTime.ElapsedGameTime.TotalSeconds > TimeToNextChange)
-            {
-                if (previousRect != 2)
-                    currentRect +=01;
-                else
-                    currentRect = 1;
-            }
-
-            return new Rectangle(5 + (width * currentRect), 0, width, height);
+            return new Rectangle((int)position.X, (int)position.Y, sourceRectangle.Width, sourceRectangle.Height);
         }
     }
 }
