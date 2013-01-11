@@ -28,8 +28,6 @@ namespace adventure_through_the_knight
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferHeight = 600;
-            graphics.PreferredBackBufferWidth = 800;
             Content.RootDirectory = "Content";
             graphics.IsFullScreen = false;				//Turn off full screen.
             //InputManager = new InputController();
@@ -47,6 +45,8 @@ namespace adventure_through_the_knight
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferWidth = 800;
             ScreenColor = Color.White;
         }
 
