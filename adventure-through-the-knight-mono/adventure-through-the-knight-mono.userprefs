@@ -1,12 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="adventure-through-the-knight-mono/Game1.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="adventure-through-the-knight-mono/Output/Base/Sprite.cs">
     <Files>
-      <File FileName="adventure-through-the-knight-mono/Game1.cs" Line="34" Column="70" />
-      <File FileName="adventure-through-the-knight-mono/Program.cs" Line="8" Column="2" />
+      <File FileName="adventure-through-the-knight-mono/Game1.cs" Line="87" Column="1" />
+      <File FileName="adventure-through-the-knight-mono/Output/Character/Player.cs" Line="37" Column="62" />
+      <File FileName="adventure-through-the-knight-mono/Output/Base/Sprite.cs" Line="15" Column="17" />
+      <File FileName="adventure-through-the-knight-mono/Output/SpriteSheetCalculator.cs" Line="59" Column="24" />
       <File FileName="adventure-through-the-knight-mono/Input/InputController.cs" Line="1" Column="1" />
-      <File FileName="adventure-through-the-knight-mono/Output/Character/Player.cs" Line="1" Column="1" />
-      <File FileName="adventure-through-the-knight-mono/Output/Base/Sprite.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

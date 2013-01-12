@@ -51,10 +51,11 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Output\Base\Sprite.cs" />
     <Compile Include="Output\Character\Player.cs" />
     <Compile Include="Input\InputController.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Output\SpriteSheetCalculator.cs" />
+    <Compile Include="Output\Base\Sprite.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />

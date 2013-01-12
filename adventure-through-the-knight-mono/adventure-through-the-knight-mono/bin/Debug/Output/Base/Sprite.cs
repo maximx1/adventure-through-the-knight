@@ -118,7 +118,7 @@ namespace adventure_through_the_knight.Output
             {
                 return;
             }
-            position = newPosition;
+            position = newPosition; 
         }
 
 		/// <summary>
@@ -132,7 +132,6 @@ namespace adventure_through_the_knight.Output
             timeSinceLastFrame += gameTime.ElapsedGameTime.TotalSeconds;
             if (timeSinceLastFrame > SecondsBetweenFrames())
             {
-				timeSinceLastFrame = 0;
                 currentFrame++;
             }
             if (currentFrame == totalFrames)
