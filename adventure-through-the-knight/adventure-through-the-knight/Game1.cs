@@ -58,7 +58,7 @@ namespace adventure_through_the_knight
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            player = new Player(Content.Load<Texture2D>("player1"), Vector2.Zero);
+            player = new Player(Content.Load<Texture2D>("player1"), new Vector2(200, 200), graphics.GraphicsDevice.Viewport.Bounds);
             // TODO: use this.Content to load your game content here
         }
 
@@ -94,7 +94,7 @@ namespace adventure_through_the_knight
                 ScreenColor = Color.Red;
             else
                 ScreenColor = Color.White;
-            player.Update(Keyboard.GetState(), gameTime);
+            player.Update(gameTime);
             // TODO: Add your update logic here
 
             base.Update(gameTime);
