@@ -32,7 +32,6 @@ namespace adventure_through_the_knight
             graphics.PreferredBackBufferWidth = 800;
             Content.RootDirectory = "Content";
             graphics.IsFullScreen = false;				//Turn off full screen.
-            //InputManager = new InputController();
             InputManager = new InputController(InputController.InputDeviceType.KEYBOARD);
         }
 
