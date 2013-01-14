@@ -28,9 +28,12 @@ namespace adventure_through_the_knight
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferWidth = 800;
             Content.RootDirectory = "Content";
             graphics.IsFullScreen = false;				//Turn off full screen.
-            //InputManager = new InputController();
+
+			//Input for the background color change.
             InputManager = new InputController(InputController.InputDeviceType.KEYBOARD);
         }
 
@@ -45,8 +48,6 @@ namespace adventure_through_the_knight
             // TODO: Add your initialization logic here
 
             base.Initialize();
-            graphics.PreferredBackBufferHeight = 600;
-            graphics.PreferredBackBufferWidth = 800;
             ScreenColor = Color.White;
         }
 
@@ -84,16 +85,6 @@ namespace adventure_through_the_knight
             if (InputManager.PAUSE)
                 Exit();
 
-            if (InputManager.LEFT)
-                ScreenColor = Color.Blue;
-            else if (InputManager.RIGHT)
-                ScreenColor = Color.Yellow;
-            else if (InputManager.UP)
-                ScreenColor = Color.Green;
-            else if (InputManager.DOWN)
-                ScreenColor = Color.Red;
-            else
-                ScreenColor = Color.White;
             player.Update(gameTime);
             // TODO: Add your update logic here
 

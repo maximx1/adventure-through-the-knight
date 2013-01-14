@@ -7,8 +7,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Nate\Documents\GitHub\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\bin\x86\Debug\Content\player1.xnb</Output>
-      <Time>2013-01-09T13:57:31.0416976-05:00</Time>
+      <Output>C:\Documents and Settings\Development016\My Documents\GameDev\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\bin\x86\Debug\Content\player1.xnb</Output>
+      <Time>2013-01-14T13:01:02.5244367-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -16,10 +16,10 @@
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Users\Nate\Documents\GitHub\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knightContent\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\Nate\Documents\GitHub\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\Nate\Documents\GitHub\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knightContent\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\Nate\Documents\GitHub\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Documents and Settings\Development016\My Documents\GameDev\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knightContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Documents and Settings\Development016\My Documents\GameDev\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Documents and Settings\Development016\My Documents\GameDev\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knightContent\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Documents and Settings\Development016\My Documents\GameDev\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
@@ -48,7 +48,7 @@
       </Assembly>
       <Assembly>
         <Key>C:\WINDOWS\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2012-10-26T19:28:29.961772-04:00</Value>
+        <Value>2013-01-09T12:51:30.2400567-05:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>
