@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Input\G_key.cs" />
     <Compile Include="Input\InputController.cs" />
     <Compile Include="Output\Character\Player.cs" />
     <Compile Include="Output\SpriteSheetCalculator.cs" />

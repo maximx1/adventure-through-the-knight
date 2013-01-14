@@ -10,11 +10,8 @@ namespace adventure_through_the_knight.Input
     class InputController
     {
         //Active input functions
-        private bool Pause;
-        private bool Up;
-        private bool Down;
-        private bool Left;
-        private bool Right;
+        private bool[] ButtonList;
+
         private float SpeedX;
         private float SpeedY;
 
@@ -36,6 +33,8 @@ namespace adventure_through_the_knight.Input
         {
             InputType = inputType;
 
+            ButtonList = new bool[] { false, false, false, false, false };
+
             //First Player keyboard
             InputKeyboard = InputType == InputDeviceType.KEYBOARD ? Keyboard.GetState() : new KeyboardState();
             //First Player gamepad
@@ -51,45 +50,55 @@ namespace adventure_through_the_knight.Input
             if (InputType == InputDeviceType.KEYBOARD)
             {
                 InputKeyboard = Keyboard.GetState();
-                Pause = InputKeyboard.IsKeyDown(Keys.Escape) ? true : false;
-                Up = InputKeyboard.IsKeyDown(Keys.W) ? true : false;
-                Down = InputKeyboard.IsKeyDown(Keys.S) ? true : false;
-                Left = InputKeyboard.IsKeyDown(Keys.A) ? true : false;
-                Right = InputKeyboard.IsKeyDown(Keys.D) ? true : false;
+                ButtonList[0] = InputKeyboard.IsKeyDown(Keys.Escape) ? true : false;
+                ButtonList[1] = InputKeyboard.IsKeyDown(Keys.W) ? true : false;
+                ButtonList[2] = InputKeyboard.IsKeyDown(Keys.S) ? true : false;
+                ButtonList[3] = InputKeyboard.IsKeyDown(Keys.A) ? true : false;
+                ButtonList[4] = InputKeyboard.IsKeyDown(Keys.D) ? true : false;
 
                 //Set the speed quantity to max for the keyboard
-                SpeedY = Up ? 1 : 0;
-                SpeedY = Down ? -1 : 0;
-                SpeedX = Right ? 1 : 0;
-                SpeedX = Left ? 1 : 0;
+                SpeedY = ButtonList[1] ? 1 : 0;
+                SpeedY = ButtonList[2] ? -1 : 0;
+                SpeedX = ButtonList[3] ? 1 : 0;
+                SpeedX = ButtonList[4] ? 1 : 0;
             }
 
             if (InputType == InputDeviceType.GAMEPAD)
             {
                 InputGamepad = GamePad.GetState(PlayerIndex.One);
 
-                Pause = InputGamepad.Buttons.Start == ButtonState.Pressed ? true : false;
+                ButtonList[0] = InputGamepad.Buttons.Start == ButtonState.Pressed ? true : false;
                 if (InputGamepad.ThumbSticks.Left.X > .1f)
                 {
-                    Up = true;
+                    ButtonList[1] = true;
                     SpeedX = InputGamepad.ThumbSticks.Left.X;
                 }
                 else if (InputGamepad.ThumbSticks.Left.X < -.1f)
                 {
-                    Down = true;
+                    ButtonList[2] = true;
                     SpeedX = InputGamepad.ThumbSticks.Left.X;
                 }
                 else if (InputGamepad.ThumbSticks.Left.X < -.1f)
                 {
-                    Left = true;
+                    ButtonList[3] = true;
                     SpeedY = InputGamepad.ThumbSticks.Left.Y;
                 }
                 else if (InputGamepad.ThumbSticks.Left.X > .1f)
                 {
-                    Right = true;
+                    ButtonList[4] = true;
                     SpeedX = InputGamepad.ThumbSticks.Left.Y;
                 }
             }
+        }
+
+        /// <summary>
+        /// Detects if a specific key is pressed.
+        /// </summary>
+        /// <param name="key">Key to be detected.</param>
+        /// <returns>true if the key is pressed.</returns>
+        public bool IsPressed(G_key.G_KEY key)
+        {
+            return ButtonList[(int)key];
         }
 
         /// <summary>
@@ -98,7 +107,7 @@ namespace adventure_through_the_knight.Input
         /// <value>
         /// <c>true</c> if PAUS; otherwise, <c>false</c>.
         /// </value>
-        public bool PAUSE { get { return Pause; } }
+        public bool PAUSE { get { return ButtonList[0]; } }
 
         /// <summary>
         /// Gets a value indicating whether this <see cref="RPGGame.InputController"/> is FORWAR.
@@ -106,7 +115,7 @@ namespace adventure_through_the_knight.Input
         /// <value>
         /// <c>true</c> if FORWAR; otherwise, <c>false</c>.
         /// </value>
-        public bool UP { get { return Up; } }
+        public bool UP { get { return ButtonList[1]; } }
 
         /// <summary>
         /// Gets a value indicating whether this <see cref="RPGGame.InputController"/> is BACKWARD.
@@ -114,7 +123,7 @@ namespace adventure_through_the_knight.Input
         /// <value>
         /// <c>true</c> if BACKWARD; otherwise, <c>false</c>.
         /// </value>
-        public bool DOWN { get { return Down; } }
+        public bool DOWN { get { return ButtonList[2]; } }
 
         /// <summary>
         /// Gets a value indicating whether this <see cref="RPGGame.InputController"/> is LEF.
@@ -122,7 +131,7 @@ namespace adventure_through_the_knight.Input
         /// <value>
         /// <c>true</c> if LEF; otherwise, <c>false</c>.
         /// </value>
-        public bool LEFT { get { return Left; } }
+        public bool LEFT { get { return ButtonList[3]; } }
 
         /// <summary>
         /// Gets a value indicating whether this <see cref="RPGGame.InputController"/> is RIGH.
@@ -130,7 +139,7 @@ namespace adventure_through_the_knight.Input
         /// <value>
         /// <c>true</c> if RIGH; otherwise, <c>false</c>.
         /// </value>
-        public bool RIGHT { get { return Right; } }
+        public bool RIGHT { get { return ButtonList[4]; } }
 
         /// <summary>
         /// Gets the degree of speed for the x direction
