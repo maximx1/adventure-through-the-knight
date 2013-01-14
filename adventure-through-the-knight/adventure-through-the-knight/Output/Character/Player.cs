@@ -34,9 +34,9 @@ namespace adventure_through_the_knight.Output.Character
 		/// Movement bounds.
 		/// </param>
         public Player(Texture2D texture, Vector2 position, Rectangle movementBounds)
-            : base(texture, position, movementBounds, 1, 4, 9)
+            : base(texture, position, movementBounds, 1, 4, 11)
         {
-            this.Speed = 100;
+            this.Speed = 60;
 			this.Input = new InputController(InputController.InputDeviceType.KEYBOARD);
         }
 
@@ -73,28 +73,29 @@ namespace adventure_through_the_knight.Output.Character
 
 			var velocity = Vector2.Zero;
 
-//			var keyDictionary = new Dictionary<Boolean, Vector2>
-//            {
-//                {Input.LEFT, new Vector2(-1, 0)},
-//                {Input.RIGHT, new Vector2(1, 0)},
-//                {Input.UP, new Vector2(0, -1)},
-//                {Input.DOWN, new Vector2(0, 1)}
-//            };
+            var keyDictionary = new Dictionary<G_key.G_KEY, Vector2>
+            {
+                {G_key.G_KEY.LEFT, new Vector2(-1, 0)},
+                {G_key.G_KEY.RIGHT, new Vector2(1, 0)},
+                {G_key.G_KEY.UP, new Vector2(0, -1)},
+                {G_key.G_KEY.DOWN, new Vector2(0, 1)}
+            };
 
-			if(Input.LEFT)
-				velocity += new Vector2(-1, 0);
-			if(Input.RIGHT)
-				velocity += new Vector2(1, 0);
-			if(Input.UP)
-				velocity += new Vector2(0, -1);
-			if(Input.DOWN)
-				velocity += new Vector2(0, 1);
+            //if(Input.LEFT)
+            //    velocity += new Vector2(-1, 0);
+            //if(Input.RIGHT)
+            //    velocity += new Vector2(1, 0);
+            //if(Input.UP)
+            //    velocity += new Vector2(0, -1);
+            //if(Input.DOWN)
+            //    velocity += new Vector2(0, 1);
 
 
-//			foreach (var key in keyDictionary) {
-//				if (key.Key)
-//					velocity += key.Value;
-//			}
+            foreach (var key in keyDictionary)
+            {
+                if (Input.IsPressed(key.Key))
+                    velocity += key.Value;
+            }
 
 			//TODO: Edit the input manager so that the values are all in a list so that we can linq it.
 
@@ -103,8 +104,6 @@ namespace adventure_through_the_knight.Output.Character
 				moved = true;
 				velocity.Normalize ();
 			}
-
-			//if(Input.UP
 
             //foreach (var keypress in keyboardState.GetPressedKeys())
             //{
