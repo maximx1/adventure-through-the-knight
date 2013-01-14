@@ -81,15 +81,6 @@ namespace adventure_through_the_knight.Output.Character
                 {G_key.G_KEY.DOWN, new Vector2(0, 1)}
             };
 
-            //if(Input.LEFT)
-            //    velocity += new Vector2(-1, 0);
-            //if(Input.RIGHT)
-            //    velocity += new Vector2(1, 0);
-            //if(Input.UP)
-            //    velocity += new Vector2(0, -1);
-            //if(Input.DOWN)
-            //    velocity += new Vector2(0, 1);
-
 
             foreach (var key in keyDictionary)
             {
@@ -97,25 +88,11 @@ namespace adventure_through_the_knight.Output.Character
                     velocity += key.Value;
             }
 
-			//TODO: Edit the input manager so that the values are all in a list so that we can linq it.
-
 			if (velocity != Vector2.Zero)
 			{
 				moved = true;
-				velocity.Normalize ();
+				//velocity.Normalize ();
 			}
-
-            //foreach (var keypress in keyboardState.GetPressedKeys())
-            //{
-                //Vector2 value = new Vector2();
-
-
-                //keyDictionary.TryGetValue(keypress, out value);
-                //if (value != null)
-                //{
-                    //velocity += value;
-                //}
-            //}
 
             Velocity = velocity;
         }
