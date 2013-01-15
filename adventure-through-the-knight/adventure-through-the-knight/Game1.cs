@@ -27,10 +27,10 @@ namespace adventure_through_the_knight
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferHeight = 600;
-            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = 600;       //The Height of the Window
+            graphics.PreferredBackBufferWidth = 800;        //The Width of the Window
             Content.RootDirectory = "Content";
-            graphics.IsFullScreen = false;				//Turn off full screen.
+            graphics.IsFullScreen = false;				    //Turn off full screen.
         }
 
         /// <summary>
@@ -41,10 +41,10 @@ namespace adventure_through_the_knight
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
-            ScreenColor = Color.White;
+
+            //TV Manafacturers use black in between frames to help smooth out frame intervals.
+            ScreenColor = Color.Black;
         }
 
         /// <summary>
@@ -55,8 +55,7 @@ namespace adventure_through_the_knight
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            player = new Player(Content.Load<Texture2D>("player1"), new Vector2(200, 200), graphics.GraphicsDevice.Viewport.Bounds);
-            // TODO: use this.Content to load your game content here
+            player = new Player(Content.Load<Texture2D>("player1"), new Vector2(200, 200), graphics.GraphicsDevice.Viewport.Bounds);    //Player 1
         }
 
         /// <summary>
@@ -76,6 +75,9 @@ namespace adventure_through_the_knight
         protected override void Update(GameTime gameTime)
         {
             player.Update(gameTime);
+
+            //Safely closes the game.
+            //We should possible add some more functions to close databases and store last minute saves.
             if (player.CloseGame)
                 Exit();
 
@@ -90,14 +92,14 @@ namespace adventure_through_the_knight
         {
             GraphicsDevice.Clear(ScreenColor);
 
-            //Add game character here for testing
-
+            //Start drawing all characters, objects, and fonts.
             spriteBatch.Begin();
 
             player.Draw(spriteBatch);
 
             spriteBatch.End();
 
+            //Output loaded frame to the screen.
             base.Draw(gameTime);
         }
     }

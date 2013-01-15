@@ -32,7 +32,7 @@ namespace adventure_through_the_knight.Input
         {
             InputType = inputType;
 
-            ButtonList = new bool[] { false, false, false, false, false };
+            ButtonList = new bool[] { false, false, false, false, false, false };
 
             //First Player keyboard
             InputKeyboard = InputType == InputDeviceType.KEYBOARD ? Keyboard.GetState() : new KeyboardState();
@@ -62,7 +62,9 @@ namespace adventure_through_the_knight.Input
                 ButtonList[2] = InputKeyboard.IsKeyDown(Keys.S) ? true : false;
                 ButtonList[3] = InputKeyboard.IsKeyDown(Keys.A) ? true : false;
                 ButtonList[4] = InputKeyboard.IsKeyDown(Keys.D) ? true : false;
+                ButtonList[5] = InputKeyboard.IsKeyDown(Keys.LeftShift) ? true : false;
 
+                //Generate a vector based on what keys are pressed.
                 foreach (var key in KeyDictionary)
                 {
                     if (this.IsPressed(key.Key))
@@ -82,6 +84,7 @@ namespace adventure_through_the_knight.Input
                     ButtonList[i] = false;
                 }
 
+                //Set the button states.
                 //up
                 if (InputGamepad.ThumbSticks.Left.Y > .1f)
                 {
@@ -104,6 +107,12 @@ namespace adventure_through_the_knight.Input
                 if (InputGamepad.ThumbSticks.Left.X > .1f)
                 {
                     ButtonList[4] = true;
+                }
+
+                //shift
+                if (InputGamepad.Buttons.LeftShoulder == ButtonState.Pressed)
+                {
+                    ButtonList[5] = true;
                 }
 
                 LeftTS = InputGamepad.ThumbSticks.Left;
@@ -160,6 +169,11 @@ namespace adventure_through_the_knight.Input
         /// <c>true</c> if RIGH; otherwise, <c>false</c>.
         /// </value>
         public bool RIGHT { get { return ButtonList[4]; } }
+
+        /// <summary>
+        /// Gets the Left Shift key.
+        /// </summary>
+        public bool LSHIFT { get { return ButtonList[5]; } }
 
         /// <summary>
         /// Gets the Vector value of the left thumbstick.

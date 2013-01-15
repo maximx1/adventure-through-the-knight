@@ -17,10 +17,10 @@ namespace adventure_through_the_knight.Output.Character
 {
     class Player : Sprite
     {
-        private bool moved;
-		InputController Input;
+		private InputController Input;                              //The game's input manager
+        private InputController.InputDeviceType CurrentInputType;   //The players input type choice
 
-        public bool CloseGame { get; set; }
+        public bool CloseGame { get; set; }     //A bool to allow the game to quit when the update loop occurs.
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="adventure_through_the_knight.Output.Character.Player"/> class.
@@ -39,7 +39,8 @@ namespace adventure_through_the_knight.Output.Character
         {
             this.CloseGame = false;
             this.Speed = 60;
-			this.Input = new InputController(InputController.InputDeviceType.KEYBOARD);
+            this.CurrentInputType = InputController.InputDeviceType.GAMEPAD;
+            this.Input = new InputController(CurrentInputType);
         }
 
 		/// <summary>
@@ -57,18 +58,15 @@ namespace adventure_through_the_knight.Output.Character
                 CloseGame = true;
                 return;
             }
-                
+            if (Input.LSHIFT)
+                Speed = 100;
+            else
+                Speed = 60;
 
 			//Update the character movement
             UpdateVelocity();
 
-			/*
-			 * This part is uber hacked - won't allow acceleration animations.
-			 * Only updates the visuals if the character has actually moved.
-			 * TODO: Edit to throw event to accelerate and deccelerate.
-			 */
-			if(moved)
-            	base.Update(gameTime);
+            base.Update(gameTime);
         }
 
 		/// <summary>
@@ -77,7 +75,7 @@ namespace adventure_through_the_knight.Output.Character
         private void UpdateVelocity ()
 		{
 			//Default to a no movement - blocks the update of the sprite.
-			moved = false;
+			this.moved = false;
 
             if (Input.LEFT_THUMBSTICK != Vector2.Zero)
             {
