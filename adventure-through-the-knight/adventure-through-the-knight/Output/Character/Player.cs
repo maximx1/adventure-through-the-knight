@@ -58,6 +58,8 @@ namespace adventure_through_the_knight.Output.Character
                 CloseGame = true;
                 return;
             }
+
+            //Implements run function.
             if (Input.LSHIFT)
                 Speed = 100;
             else
