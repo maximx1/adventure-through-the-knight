@@ -28,6 +28,8 @@ namespace adventure_through_the_knight.Output
         private int currentFrame = 1;                               //The current frame of animation.
         protected bool moved;                                       //Test if input says move.
         protected int health;                                       //Available health for the sprite.
+        public enum Direction { Left, Right, Up, Down, Still };
+        protected Dictionary<Direction, int> spriteSheetRows;
 
         //The available movement bounds for the player.
         public Rectangle BoundingBox
@@ -55,7 +57,7 @@ namespace adventure_through_the_knight.Output
         /// <param name="position"></param>
         /// <param name="movementBounds"></param>
         public Sprite(Texture2D texture, Vector2 position, Rectangle movementBounds)
-            : this(texture, position, movementBounds, 1, 1, 1)
+            : this(texture, position, movementBounds, 1, 1, 1, 1, 1, 1, 1, 1)
         {
 
         }
@@ -81,7 +83,8 @@ namespace adventure_through_the_knight.Output
 		/// <param name='framesPerSecond'>
 		/// Frames per second.
 		/// </param>
-        public Sprite(Texture2D texture, Vector2 position, Rectangle movementBounds, int rows, int columns, double framesPerSecond)
+        public Sprite(Texture2D texture, Vector2 position, Rectangle movementBounds, int rows, int columns,
+            double framesPerSecond, int upRow, int downRow, int leftRow, int rightRow, int stillRow)
         {
             this.texture = texture;
             this.position = position;
@@ -100,7 +103,7 @@ namespace adventure_through_the_knight.Output
 		/// </param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            var sourceRectangle = SpriteSheetCalculator.CalculateSourceRect((int)Width, (int)Height, columns, rows, currentFrame);
+            var sourceRectangle = SpriteSheetCalculator.CalculateSourceRect((int)Width, (int)Height, columns, rows, currentFrame, moved);
             var destinationRectangle = SpriteSheetCalculator.CalculateDestinationRect(position, sourceRectangle);
 
             spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White);

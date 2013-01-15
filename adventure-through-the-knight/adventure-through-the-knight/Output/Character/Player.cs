@@ -22,6 +22,14 @@ namespace adventure_through_the_knight.Output.Character
 
         public bool CloseGame { get; set; }     //A bool to allow the game to quit when the update loop occurs.
 
+        private Direction playerDirection;
+        public Direction PlayerDirection { get { return playerDirection; } }
+        public Dictionary<Direction, int> SpriteSheetRows
+        {
+            get { return spriteSheetRows; }
+        }
+
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="adventure_through_the_knight.Output.Character.Player"/> class.
 		/// </summary>
@@ -35,7 +43,7 @@ namespace adventure_through_the_knight.Output.Character
 		/// Movement bounds.
 		/// </param>
         public Player(Texture2D texture, Vector2 position, Rectangle movementBounds)
-            : base(texture, position, movementBounds, 1, 4, 11)
+            : base(texture, position, movementBounds, 1, 4, 11, 1, 1, 1, 1, 1)
         {
             this.CloseGame = false;
             this.Speed = 60;
@@ -51,6 +59,39 @@ namespace adventure_through_the_knight.Output.Character
 		/// </param>
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
+            Dictionary<G_key.G_KEY, Vector2> KeyDictionary;
+            KeyDictionary = new Dictionary<G_key.G_KEY, Vector2>
+            {
+                {G_key.G_KEY.LEFT, new Vector2(-1, 0)},
+                {G_key.G_KEY.RIGHT, new Vector2(1, 0)},
+                {G_key.G_KEY.UP, new Vector2(0, -1)},
+                {G_key.G_KEY.DOWN, new Vector2(0, 1)}
+            };
+
+            foreach (var key in KeyDictionary)
+            {
+                if (Input.IsPressed(key.Key))
+                {
+                    if (key.Key == G_key.G_KEY.LEFT)
+                    {
+                        playerDirection = Direction.Left;
+                    }
+                    else if (key.Key == G_key.G_KEY.RIGHT)
+                    {
+                        playerDirection = Direction.Left;
+                    }
+                    else if (key.Key == G_key.G_KEY.UP)
+                    {
+                        playerDirection = Direction.Up;
+                    }
+                    else if (key.Key == G_key.G_KEY.DOWN)
+                    {
+                        playerDirection = Direction.Down;
+                    }
+                }
+            }
+
+
 			//Update the game input controller
 			Input.GetState();
             if (Input.PAUSE)
