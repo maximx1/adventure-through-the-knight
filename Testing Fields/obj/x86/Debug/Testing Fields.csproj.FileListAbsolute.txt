@@ -6,3 +6,4 @@ C:\Users\Nate\Documents\GitHub\adventure-through-the-knight\Testing Fields\bin\D
 C:\Users\Nate\Documents\GitHub\adventure-through-the-knight\Testing Fields\bin\Debug\Testing Fields.pdb
 C:\Users\Nate\Documents\GitHub\adventure-through-the-knight\Testing Fields\obj\x86\Debug\Testing Fields.exe
 C:\Users\Nate\Documents\GitHub\adventure-through-the-knight\Testing Fields\obj\x86\Debug\Testing Fields.pdb
+C:\Users\Nate\Documents\GitHub\adventure-through-the-knight\Testing Fields\obj\x86\Debug\Testing Fields.csprojResolveAssemblyReference.cache

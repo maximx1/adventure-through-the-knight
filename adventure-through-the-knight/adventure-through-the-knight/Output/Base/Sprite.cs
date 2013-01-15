@@ -12,9 +12,10 @@ using Microsoft.Xna.Framework.Media;
 
 namespace adventure_through_the_knight.Output
 {
-    class Sprite
+    abstract class Sprite
     {
         private Vector2 position;
+        protected bool moved;
         private readonly Texture2D texture;
         private readonly Rectangle movementBounds;
         protected Vector2 Velocity { get; set; }
@@ -26,6 +27,9 @@ namespace adventure_through_the_knight.Output
         private int totalFrames;
         private double timeSinceLastFrame;
         private int currentFrame = 1;
+        public enum Direction { Left, Right, Up, Down, Still };
+        protected Dictionary<Direction, int> spriteSheetRows;
+
         public Rectangle BoundingBox
         {
             get { return CreateBoundingBoxFromPosition(position); }
@@ -39,12 +43,13 @@ namespace adventure_through_the_knight.Output
         protected float Speed { get; set; }
 
         public Sprite(Texture2D texture, Vector2 position, Rectangle movementBounds)
-            : this(texture, position, movementBounds, 1, 1, 1)
+            : this(texture, position, movementBounds, 1, 1, 1, 1, 1, 1, 1, 1)
         {
 
         }
 
-        public Sprite(Texture2D texture, Vector2 position, Rectangle movementBounds, int rows, int columns, double framesPerSecond)
+        public Sprite(Texture2D texture, Vector2 position, Rectangle movementBounds, int rows, int columns,
+            double framesPerSecond, int upRow, int downRow, int leftRow, int rightRow, int stillRow)
         {
             this.texture = texture;
             this.position = position;
@@ -57,7 +62,7 @@ namespace adventure_through_the_knight.Output
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            var sourceRectangle = SpriteSheetCalculator.CalculateSourceRect((int)Width, (int)Height, columns, rows, currentFrame);
+            var sourceRectangle = SpriteSheetCalculator.CalculateSourceRect((int)Width, (int)Height, columns, rows, currentFrame, moved);
             var destinationRectangle = SpriteSheetCalculator.CalculateDestinationRect(position, sourceRectangle);
 
            
@@ -72,12 +77,19 @@ namespace adventure_through_the_knight.Output
 
         public virtual void Update(GameTime gameTime)
         {
-            UpdateAnimation(gameTime);
             var newPosition = position + (Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds) * Speed;
             if (Blocked(newPosition))
             {
+                moved = false;
                 return;
             }
+            if (newPosition == position)
+            {
+                moved = false;
+                return;
+            }
+            moved = true;
+            UpdateAnimation(gameTime);
             position = newPosition; 
         }
 
@@ -87,9 +99,13 @@ namespace adventure_through_the_knight.Output
             if (timeSinceLastFrame > SecondsBetweenFrames())
             {
                 currentFrame++;
+                timeSinceLastFrame = 0;
             }
             if (currentFrame == totalFrames)
+            {
                 currentFrame = 1;
+                timeSinceLastFrame = 0;
+            }
         }
         private double SecondsBetweenFrames()
         {

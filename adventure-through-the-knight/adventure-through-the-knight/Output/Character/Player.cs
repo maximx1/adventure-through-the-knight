@@ -16,12 +16,17 @@ namespace adventure_through_the_knight.Output.Character
 {
     class Player : Sprite
     {
-        private bool moved;
+        private Direction playerDirection;
+        public Direction PlayerDirection { get { return playerDirection; } }
+        public Dictionary<Direction, int> SpriteSheetRows
+        {
+            get { return spriteSheetRows; }
+        }
 
         public Player(Texture2D texture, Vector2 position, Rectangle movementBounds)
-            : base(texture, position, movementBounds, 1, 4, 14)
+            : base(texture, position, movementBounds, 1, 4, 7, 1, 1, 1, 1, 1)
         {
-            this.Speed = 100;
+            this.Speed = 50;
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
@@ -47,7 +52,25 @@ namespace adventure_through_the_knight.Output.Character
             foreach (var key in keyDictionary)
             {
                 if (keyboardState.IsKeyDown(key.Key))
+                {
                     velocity += key.Value;
+                    if (key.Key == Keys.Left)
+                    {
+                        playerDirection = Direction.Left;
+                    }
+                    else if (key.Key == Keys.Right)
+                    {
+                        playerDirection = Direction.Left;
+                    }
+                    else if (key.Key == Keys.Up)
+                    {
+                        playerDirection = Direction.Up;
+                    }
+                    else if (key.Key == Keys.Down)
+                    {
+                        playerDirection = Direction.Down;
+                    }
+                }
             }
 
             if (velocity != Vector2.Zero)
