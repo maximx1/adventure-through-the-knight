@@ -11,9 +11,8 @@ namespace adventure_through_the_knight.Input
     {
         //Active input functions
         private bool[] ButtonList;
-
-        private float SpeedX;
-        private float SpeedY;
+        private Vector2 LeftTS;
+        private Dictionary<G_key.G_KEY, Vector2> KeyDictionary;
 
         //Constant states for all input devices
         private InputDeviceType InputType;
@@ -39,7 +38,14 @@ namespace adventure_through_the_knight.Input
             InputKeyboard = InputType == InputDeviceType.KEYBOARD ? Keyboard.GetState() : new KeyboardState();
             //First Player gamepad
             InputGamepad = InputType == InputDeviceType.GAMEPAD ? GamePad.GetState(PlayerIndex.One) : new GamePadState();
-            
+
+            KeyDictionary = new Dictionary<G_key.G_KEY, Vector2>
+            {
+                {G_key.G_KEY.LEFT, new Vector2(-1, 0)},
+                {G_key.G_KEY.RIGHT, new Vector2(1, 0)},
+                {G_key.G_KEY.UP, new Vector2(0, -1)},
+                {G_key.G_KEY.DOWN, new Vector2(0, 1)}
+            };
         }
 
         /// <summary>
@@ -49,6 +55,7 @@ namespace adventure_through_the_knight.Input
         {
             if (InputType == InputDeviceType.KEYBOARD)
             {
+                LeftTS = Vector2.Zero;
                 InputKeyboard = Keyboard.GetState();
                 ButtonList[0] = InputKeyboard.IsKeyDown(Keys.Escape) ? true : false;
                 ButtonList[1] = InputKeyboard.IsKeyDown(Keys.W) ? true : false;
@@ -56,11 +63,11 @@ namespace adventure_through_the_knight.Input
                 ButtonList[3] = InputKeyboard.IsKeyDown(Keys.A) ? true : false;
                 ButtonList[4] = InputKeyboard.IsKeyDown(Keys.D) ? true : false;
 
-                //Set the speed quantity to max for the keyboard
-                SpeedY = ButtonList[1] ? 1 : 0;
-                SpeedY = ButtonList[2] ? -1 : 0;
-                SpeedX = ButtonList[3] ? 1 : 0;
-                SpeedX = ButtonList[4] ? 1 : 0;
+                foreach (var key in KeyDictionary)
+                {
+                    if (this.IsPressed(key.Key))
+                       LeftTS += key.Value;
+                }
             }
 
             if (InputType == InputDeviceType.GAMEPAD)
@@ -68,26 +75,39 @@ namespace adventure_through_the_knight.Input
                 InputGamepad = GamePad.GetState(PlayerIndex.One);
 
                 ButtonList[0] = InputGamepad.Buttons.Start == ButtonState.Pressed ? true : false;
-                if (InputGamepad.ThumbSticks.Left.X > .1f)
+                
+                //Reset the Button inputs
+                for (int i = 1; i < ButtonList.Length; i++)
+                {
+                    ButtonList[i] = false;
+                }
+
+                //up
+                if (InputGamepad.ThumbSticks.Left.Y > .1f)
                 {
                     ButtonList[1] = true;
-                    SpeedX = InputGamepad.ThumbSticks.Left.X;
                 }
-                else if (InputGamepad.ThumbSticks.Left.X < -.1f)
+
+                //down
+                if (InputGamepad.ThumbSticks.Left.Y < -.1f)
                 {
                     ButtonList[2] = true;
-                    SpeedX = InputGamepad.ThumbSticks.Left.X;
                 }
-                else if (InputGamepad.ThumbSticks.Left.X < -.1f)
+
+                //left
+                if (InputGamepad.ThumbSticks.Left.X < -.1f)
                 {
                     ButtonList[3] = true;
-                    SpeedY = InputGamepad.ThumbSticks.Left.Y;
                 }
-                else if (InputGamepad.ThumbSticks.Left.X > .1f)
+
+                //right
+                if (InputGamepad.ThumbSticks.Left.X > .1f)
                 {
                     ButtonList[4] = true;
-                    SpeedX = InputGamepad.ThumbSticks.Left.Y;
                 }
+
+                LeftTS = InputGamepad.ThumbSticks.Left;
+                LeftTS.Y *= -1;
             }
         }
 
@@ -142,13 +162,8 @@ namespace adventure_through_the_knight.Input
         public bool RIGHT { get { return ButtonList[4]; } }
 
         /// <summary>
-        /// Gets the degree of speed for the x direction
+        /// Gets the Vector value of the left thumbstick.
         /// </summary>
-        public float SPEEDX { get { return SpeedX; } }
-
-        /// <summary>
-        /// Gets the degree of speed for the y direction
-        /// </summary>
-        public float SPEEDY { get { return SpeedY; } }
+        public Vector2 LEFT_THUMBSTICK { get { return LeftTS; } }
     }
 }

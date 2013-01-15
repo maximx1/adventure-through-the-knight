@@ -18,8 +18,9 @@ namespace adventure_through_the_knight.Output.Character
     class Player : Sprite
     {
         private bool moved;
-
 		InputController Input;
+
+        public bool CloseGame { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="adventure_through_the_knight.Output.Character.Player"/> class.
@@ -36,6 +37,7 @@ namespace adventure_through_the_knight.Output.Character
         public Player(Texture2D texture, Vector2 position, Rectangle movementBounds)
             : base(texture, position, movementBounds, 1, 4, 11)
         {
+            this.CloseGame = false;
             this.Speed = 60;
 			this.Input = new InputController(InputController.InputDeviceType.KEYBOARD);
         }
@@ -50,6 +52,12 @@ namespace adventure_through_the_knight.Output.Character
         {
 			//Update the game input controller
 			Input.GetState();
+            if (Input.PAUSE)
+            {
+                CloseGame = true;
+                return;
+            }
+                
 
 			//Update the character movement
             UpdateVelocity();
@@ -71,30 +79,12 @@ namespace adventure_through_the_knight.Output.Character
 			//Default to a no movement - blocks the update of the sprite.
 			moved = false;
 
-			var velocity = Vector2.Zero;
-
-            var keyDictionary = new Dictionary<G_key.G_KEY, Vector2>
+            if (Input.LEFT_THUMBSTICK != Vector2.Zero)
             {
-                {G_key.G_KEY.LEFT, new Vector2(-1, 0)},
-                {G_key.G_KEY.RIGHT, new Vector2(1, 0)},
-                {G_key.G_KEY.UP, new Vector2(0, -1)},
-                {G_key.G_KEY.DOWN, new Vector2(0, 1)}
-            };
-
-
-            foreach (var key in keyDictionary)
-            {
-                if (Input.IsPressed(key.Key))
-                    velocity += key.Value;
+                moved = true;
             }
-
-			if (velocity != Vector2.Zero)
-			{
-				moved = true;
-				//velocity.Normalize ();
-			}
-
-            Velocity = velocity;
+            
+            Velocity = Input.LEFT_THUMBSTICK;
         }
     }
 }

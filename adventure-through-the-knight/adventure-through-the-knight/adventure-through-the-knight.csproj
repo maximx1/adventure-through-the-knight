@@ -115,6 +115,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Output\Base\Sprite.cs" />
+    <Compile Include="Utilities\Error Logging\Error Log.cs" />
+    <Compile Include="Utilities\File System\File Check.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

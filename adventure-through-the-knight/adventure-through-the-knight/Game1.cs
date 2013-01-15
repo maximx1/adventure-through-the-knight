@@ -22,7 +22,6 @@ namespace adventure_through_the_knight
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        InputController InputManager;
         Color ScreenColor;
         Player player;
         public Game1()
@@ -32,9 +31,6 @@ namespace adventure_through_the_knight
             graphics.PreferredBackBufferWidth = 800;
             Content.RootDirectory = "Content";
             graphics.IsFullScreen = false;				//Turn off full screen.
-
-			//Input for the background color change.
-            InputManager = new InputController(InputController.InputDeviceType.KEYBOARD);
         }
 
         /// <summary>
@@ -79,14 +75,9 @@ namespace adventure_through_the_knight
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            InputManager.GetState();
-
-            // Allows the game to exit
-            if (InputManager.PAUSE)
-                Exit();
-
             player.Update(gameTime);
-            // TODO: Add your update logic here
+            if (player.CloseGame)
+                Exit();
 
             base.Update(gameTime);
         }
