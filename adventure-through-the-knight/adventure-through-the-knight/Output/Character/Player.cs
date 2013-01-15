@@ -47,7 +47,7 @@ namespace adventure_through_the_knight.Output.Character
         {
             this.CloseGame = false;
             this.Speed = 60;
-            this.CurrentInputType = InputController.InputDeviceType.KEYBOARD;
+            this.CurrentInputType = InputController.InputDeviceType.GAMEPAD;
             this.Input = new InputController(CurrentInputType);
         }
 
