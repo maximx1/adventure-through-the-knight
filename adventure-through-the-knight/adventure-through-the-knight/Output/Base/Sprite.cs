@@ -44,7 +44,7 @@ namespace adventure_through_the_knight.Output
         /// <returns></returns>
         private Rectangle CreateBoundingBoxFromPosition(Vector2 position)
         {
-            return new Rectangle((int)position.X, (int)position.Y, (int)Width, (int)Height);
+            return new Rectangle((int)position.X, (int)position.Y, (int)Width / columns, (int)Height / rows);
         }
 
         //The Magnitude of the velocity.
