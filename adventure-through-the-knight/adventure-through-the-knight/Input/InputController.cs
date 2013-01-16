@@ -12,6 +12,7 @@ namespace adventure_through_the_knight.Input
         //Active input functions
         private bool[] ButtonList;
         private Vector2 LeftTS;
+        private Vector2 RightTS;
         private Dictionary<G_key.G_KEY, Vector2> KeyDictionary;
 
         //Constant states for all input devices
@@ -70,6 +71,7 @@ namespace adventure_through_the_knight.Input
                     if (this.IsPressed(key.Key))
                        LeftTS += key.Value;
                 }
+                RightTS = LeftTS;
             }
 
             if (InputType == InputDeviceType.GAMEPAD)
@@ -117,6 +119,13 @@ namespace adventure_through_the_knight.Input
 
                 LeftTS = InputGamepad.ThumbSticks.Left;
                 LeftTS.Y *= -1;
+                if (LeftTS == Vector2.Zero)
+                {
+                    RightTS = InputGamepad.ThumbSticks.Right;
+                    RightTS.Y *= -1;
+                }
+                else
+                    RightTS = LeftTS;
             }
         }
 
@@ -179,5 +188,10 @@ namespace adventure_through_the_knight.Input
         /// Gets the Vector value of the left thumbstick.
         /// </summary>
         public Vector2 LEFT_THUMBSTICK { get { return LeftTS; } }
+
+        /// <summary>
+        /// Gets the Vector value of the right thumbstick.
+        /// </summary>
+        public Vector2 RIGHT_THUMBSTICK { get { return RightTS; } }
     }
 }

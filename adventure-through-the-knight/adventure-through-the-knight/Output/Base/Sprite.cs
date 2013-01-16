@@ -14,22 +14,26 @@ namespace adventure_through_the_knight.Output
 {
     class Sprite
     {
-        private Vector2 position;                                   //Location of the sprite in the world.
-        private readonly Texture2D texture;                         //The texture for the sprite.
-        private readonly Rectangle movementBounds;                  //The available movement bounds.
-        protected Vector2 Velocity { get; set; }                    //The direction of the sprite.
         public float Width { get { return texture.Width; } }        //The Width of the texture.
         public float Height { get { return texture.Height; } }      //The Height of the texture.
         public readonly int rows;                                   //The number of available animations.
         public readonly int columns;                                //The number of animations per row.
+        public enum Direction { Up, Down, Left, Right, Up_Left, Up_Right, Down_Left, Down_Right, Still };   //Lists the available directions.
+        
+        private Vector2 position;                                   //Location of the sprite in the world.
+        private readonly Texture2D texture;                         //The texture for the sprite.
+        private readonly Rectangle movementBounds;                  //The available movement bounds.
         private readonly double framesPerSecond;                    //The speed of how fast the frames should update.
         private int totalFrames;                                    //The number of frames available for an animation.
-        private double timeSinceLastFrame;                          //A counter to determine if animation should advance.
         private int currentFrame = 1;                               //The current frame of animation.
+        private double timeSinceLastFrame;                          //A counter to determine if animation should advance.
+        private Direction SpriteDirection;                          //The direction the Sprite is facing
+        
+        protected Dictionary<Direction, int> spriteSheetRows;       //Dictionary holding the different animations of the character.
+        protected Vector2 Velocity { get; set; }                    //The direction of the sprite.
+        protected Vector2 SpriteDirectionVector;                    //The direction of the Sprite.
         protected bool moved;                                       //Test if input says move.
         protected int health;                                       //Available health for the sprite.
-        public enum Direction { Left, Right, Up, Down, Still };
-        protected Dictionary<Direction, int> spriteSheetRows;
 
         //The available movement bounds for the player.
         public Rectangle BoundingBox
@@ -93,6 +97,7 @@ namespace adventure_through_the_knight.Output
             this.columns = columns;
             this.framesPerSecond = framesPerSecond;
             this.totalFrames = rows * columns;
+            this.SpriteDirectionVector = Vector2.Zero;
         }
 
 		/// <summary>
@@ -130,6 +135,7 @@ namespace adventure_through_the_knight.Output
         public virtual void Update(GameTime gameTime)
         {   
             var newPosition = position + (Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds) * Speed;
+            UpdateDirection();
             if (Blocked(newPosition))       //Check if at the bounds of the Game.
             {
                 return;
@@ -172,6 +178,43 @@ namespace adventure_through_the_knight.Output
         private double SecondsBetweenFrames()
         {
             return 1 / framesPerSecond;
+        }
+
+        /// <summary>
+        /// Converts the vector into a set direction.
+        /// </summary>
+        private void UpdateDirection()
+        {
+            if (SpriteDirectionVector == Vector2.Zero)
+            {
+                this.SpriteDirection = Direction.Still;
+                return;
+            }
+
+            //Lists the directions and marks all that are true.
+            bool[] availDirections = new bool[8];
+            availDirections[0] = SpriteDirectionVector.Y < -.1 ? true : false;              //Up - 0
+            availDirections[1] = SpriteDirectionVector.Y > .1 ? true : false;               //Down - 1
+            availDirections[2] = SpriteDirectionVector.X < -.1 ? true : false;              //left - 2
+            availDirections[3] = SpriteDirectionVector.X > .1 ? true : false;               //right - 3
+
+            //Marks all the dual directions.
+            availDirections[4] = availDirections[0] && availDirections[2] ? true : false;   //up left
+            availDirections[5] = availDirections[0] && availDirections[3] ? true : false;   //up right
+            availDirections[6] = availDirections[1] && availDirections[2] ? true : false;   //down left
+            availDirections[7] = availDirections[1] && availDirections[3] ? true : false;   //down right
+
+            //Go through the array backward and register the first true as the direction.
+            for (int i = 7; i >= 0; i--)
+            {
+                if (availDirections[i])
+                {
+                    SpriteDirection = (Direction)i;
+                    return;
+                }
+            }
+
+            SpriteDirection = Direction.Still;
         }
     }
 }
