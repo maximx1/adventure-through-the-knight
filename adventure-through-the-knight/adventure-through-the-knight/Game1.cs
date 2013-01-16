@@ -22,6 +22,8 @@ namespace adventure_through_the_knight
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        SpriteFont DebugText;
+
         Color ScreenColor;
         Player player;
         public Game1()
@@ -56,6 +58,7 @@ namespace adventure_through_the_knight
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             player = new Player(Content.Load<Texture2D>("player1"), new Vector2(200, 200), graphics.GraphicsDevice.Viewport.Bounds);    //Player 1
+            DebugText = Content.Load<SpriteFont>(@"SpriteFonts\DebugOverlay");
         }
 
         /// <summary>
@@ -96,6 +99,8 @@ namespace adventure_through_the_knight
             spriteBatch.Begin();
 
             player.Draw(spriteBatch);
+
+            spriteBatch.DrawString(DebugText, player.SPRITE_DIRECTION.ToString(), Vector2.Zero, Color.White);
 
             spriteBatch.End();
 

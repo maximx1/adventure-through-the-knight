@@ -1,1 +1,2 @@
 Content\player1.xnb
+Content\SpriteFonts\DebugOverlay.xnb

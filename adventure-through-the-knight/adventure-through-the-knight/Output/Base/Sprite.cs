@@ -18,7 +18,7 @@ namespace adventure_through_the_knight.Output
         public float Height { get { return texture.Height; } }      //The Height of the texture.
         public readonly int rows;                                   //The number of available animations.
         public readonly int columns;                                //The number of animations per row.
-        public enum Direction { Up, Down, Left, Right, Up_Left, Up_Right, Down_Left, Down_Right, Still };   //Lists the available directions.
+        public enum Direction { Right, Up_Right, Up, Up_Left, Left, Down_Left, Down, Down_Right, Still };   //Lists the available directions. Do not change order.
         
         private Vector2 position;                                   //Location of the sprite in the world.
         private readonly Texture2D texture;                         //The texture for the sprite.
@@ -185,36 +185,73 @@ namespace adventure_through_the_knight.Output
         /// </summary>
         private void UpdateDirection()
         {
+            //Stop if there is no motion
             if (SpriteDirectionVector == Vector2.Zero)
             {
                 this.SpriteDirection = Direction.Still;
                 return;
             }
 
-            //Lists the directions and marks all that are true.
-            bool[] availDirections = new bool[8];
-            availDirections[0] = SpriteDirectionVector.Y < -.1 ? true : false;              //Up - 0
-            availDirections[1] = SpriteDirectionVector.Y > .1 ? true : false;               //Down - 1
-            availDirections[2] = SpriteDirectionVector.X < -.1 ? true : false;              //left - 2
-            availDirections[3] = SpriteDirectionVector.X > .1 ? true : false;               //right - 3
+            float angleFromVector = Utilities.Math.UnitConverter.RadToDegrees((float)Math.Atan2(-SpriteDirectionVector.Y, SpriteDirectionVector.X));
 
-            //Marks all the dual directions.
-            availDirections[4] = availDirections[0] && availDirections[2] ? true : false;   //up left
-            availDirections[5] = availDirections[0] && availDirections[3] ? true : false;   //up right
-            availDirections[6] = availDirections[1] && availDirections[2] ? true : false;   //down left
-            availDirections[7] = availDirections[1] && availDirections[3] ? true : false;   //down right
+            //Adjust the angle to register direction right with only one 45 degree increment.
+            angleFromVector += 22.5f;
 
-            //Go through the array backward and register the first true as the direction.
-            for (int i = 7; i >= 0; i--)
+            if (angleFromVector < 0)
+                angleFromVector += 360f;
+
+            for(int i = 0; i < 8; i++)
             {
-                if (availDirections[i])
+                if(InRange(angleFromVector, (float)i * 45, (float)i * 45 + 45))
                 {
                     SpriteDirection = (Direction)i;
                     return;
                 }
             }
+            //if(InRange(angleFromVector)
 
+            ////Lists the directions and marks all that are true.
+            //bool[] availDirections = new bool[8];
+            //availDirections[0] = SpriteDirectionVector.Y < -.2 ? true : false;              //Up - 0
+            //availDirections[1] = SpriteDirectionVector.Y > .2 ? true : false;               //Down - 1
+            //availDirections[2] = SpriteDirectionVector.X < -.2 ? true : false;              //left - 2
+            //availDirections[3] = SpriteDirectionVector.X > .2 ? true : false;               //right - 3
+
+            ////Marks all the dual directions.
+            //availDirections[4] = availDirections[0] && availDirections[2] ? true : false;   //up left
+            //availDirections[5] = availDirections[0] && availDirections[3] ? true : false;   //up right
+            //availDirections[6] = availDirections[1] && availDirections[2] ? true : false;   //down left
+            //availDirections[7] = availDirections[1] && availDirections[3] ? true : false;   //down right
+
+            ////Go through the array backward and register the first true as the direction.
+            //for (int i = 7; i >= 0; i--)
+            //{
+            //    if (availDirections[i])
+            //    {
+            //        SpriteDirection = (Direction)i;
+            //        return;
+            //    }
+            //}
+
+            //default to no motion
             SpriteDirection = Direction.Still;
         }
+
+        /// <summary>
+        /// Test if a number is within the range of another number.
+        /// </summary>
+        /// <param name="TestVariable">True if the value is within range</param>
+        /// <param name="Min">The Minimum number inclusive.</param>
+        /// <param name="Max">The Maximum number non-inclusive</param>
+        /// <returns></returns>
+        public bool InRange(float TestVariable, float Min, float Max)
+        {
+            return TestVariable < Max && TestVariable >= Min ? true : false; 
+        }
+
+        /// <summary>
+        /// Gets the player's direction.
+        /// </summary>
+        public Direction SPRITE_DIRECTION { get { return SpriteDirection; } }
     }
 }

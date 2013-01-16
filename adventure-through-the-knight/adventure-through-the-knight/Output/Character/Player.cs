@@ -47,7 +47,7 @@ namespace adventure_through_the_knight.Output.Character
         {
             this.CloseGame = false;
             this.Speed = 60;
-            this.CurrentInputType = InputController.InputDeviceType.GAMEPAD;
+            this.CurrentInputType = InputController.InputDeviceType.KEYBOARD;
             this.Input = new InputController(CurrentInputType);
         }
 
@@ -59,39 +59,6 @@ namespace adventure_through_the_knight.Output.Character
 		/// </param>
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            Dictionary<G_key.G_KEY, Vector2> KeyDictionary;
-            KeyDictionary = new Dictionary<G_key.G_KEY, Vector2>
-            {
-                {G_key.G_KEY.LEFT, new Vector2(-1, 0)},
-                {G_key.G_KEY.RIGHT, new Vector2(1, 0)},
-                {G_key.G_KEY.UP, new Vector2(0, -1)},
-                {G_key.G_KEY.DOWN, new Vector2(0, 1)}
-            };
-
-            foreach (var key in KeyDictionary)
-            {
-                if (Input.IsPressed(key.Key))
-                {
-                    if (key.Key == G_key.G_KEY.LEFT)
-                    {
-                        playerDirection = Direction.Left;
-                    }
-                    else if (key.Key == G_key.G_KEY.RIGHT)
-                    {
-                        playerDirection = Direction.Left;
-                    }
-                    else if (key.Key == G_key.G_KEY.UP)
-                    {
-                        playerDirection = Direction.Up;
-                    }
-                    else if (key.Key == G_key.G_KEY.DOWN)
-                    {
-                        playerDirection = Direction.Down;
-                    }
-                }
-            }
-
-
 			//Update the game input controller
 			Input.GetState();
             if (Input.PAUSE)
@@ -105,6 +72,9 @@ namespace adventure_through_the_knight.Output.Character
                 Speed = 100;
             else
                 Speed = 60;
+
+            //Call method to update the player's direction.
+            UpdateSpriteDirectionVector();
 
 			//Update the character movement
             UpdateVelocity();
@@ -126,6 +96,11 @@ namespace adventure_through_the_knight.Output.Character
             }
             
             Velocity = Input.LEFT_THUMBSTICK;
+        }
+
+        private void UpdateSpriteDirectionVector()
+        {
+            SpriteDirectionVector = Input.RIGHT_THUMBSTICK;
         }
     }
 }

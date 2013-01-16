@@ -117,6 +117,7 @@
     <Compile Include="Output\Base\Sprite.cs" />
     <Compile Include="Utilities\Error Logging\Error Log.cs" />
     <Compile Include="Utilities\File System\File Check.cs" />
+    <Compile Include="Utilities\Math\UnitConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
