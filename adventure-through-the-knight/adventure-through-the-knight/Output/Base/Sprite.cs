@@ -196,7 +196,7 @@ namespace adventure_through_the_knight.Output
 
             //Adjust the angle to register direction right with only one 45 degree increment.
             angleFromVector += 22.5f;
-
+            
             if (angleFromVector < 0)
                 angleFromVector += 360f;
 
@@ -208,31 +208,7 @@ namespace adventure_through_the_knight.Output
                     return;
                 }
             }
-            //if(InRange(angleFromVector)
-
-            ////Lists the directions and marks all that are true.
-            //bool[] availDirections = new bool[8];
-            //availDirections[0] = SpriteDirectionVector.Y < -.2 ? true : false;              //Up - 0
-            //availDirections[1] = SpriteDirectionVector.Y > .2 ? true : false;               //Down - 1
-            //availDirections[2] = SpriteDirectionVector.X < -.2 ? true : false;              //left - 2
-            //availDirections[3] = SpriteDirectionVector.X > .2 ? true : false;               //right - 3
-
-            ////Marks all the dual directions.
-            //availDirections[4] = availDirections[0] && availDirections[2] ? true : false;   //up left
-            //availDirections[5] = availDirections[0] && availDirections[3] ? true : false;   //up right
-            //availDirections[6] = availDirections[1] && availDirections[2] ? true : false;   //down left
-            //availDirections[7] = availDirections[1] && availDirections[3] ? true : false;   //down right
-
-            ////Go through the array backward and register the first true as the direction.
-            //for (int i = 7; i >= 0; i--)
-            //{
-            //    if (availDirections[i])
-            //    {
-            //        SpriteDirection = (Direction)i;
-            //        return;
-            //    }
-            //}
-
+           
             //default to no motion
             SpriteDirection = Direction.Still;
         }
