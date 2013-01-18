@@ -28,6 +28,7 @@ namespace adventure_through_the_knight.Output
         private int currentFrame = 1;                               //The current frame of animation.
         private double timeSinceLastFrame;                          //A counter to determine if animation should advance.
         private Direction SpriteDirection;                          //The direction the Sprite is facing
+        private Direction LastDirection;
         
         protected Dictionary<Direction, int> spriteSheetRows;       //Dictionary holding the different animations of the character.
         protected Vector2 Velocity { get; set; }                    //The direction of the sprite.
@@ -98,6 +99,7 @@ namespace adventure_through_the_knight.Output
             this.framesPerSecond = framesPerSecond;
             this.totalFrames = rows * columns;
             this.SpriteDirectionVector = Vector2.Zero;
+            this.LastDirection = Direction.Down;
         }
 
 		/// <summary>
@@ -188,7 +190,7 @@ namespace adventure_through_the_knight.Output
             //Stop if there is no motion
             if (SpriteDirectionVector == Vector2.Zero)
             {
-                this.SpriteDirection = Direction.Still;
+                this.SpriteDirection = LastDirection;
                 return;
             }
 
@@ -205,36 +207,13 @@ namespace adventure_through_the_knight.Output
                 if(InRange(angleFromVector, (float)i * 45, (float)i * 45 + 45))
                 {
                     SpriteDirection = (Direction)i;
+                    LastDirection = SpriteDirection;
                     return;
                 }
             }
-            //if(InRange(angleFromVector)
-
-            ////Lists the directions and marks all that are true.
-            //bool[] availDirections = new bool[8];
-            //availDirections[0] = SpriteDirectionVector.Y < -.2 ? true : false;              //Up - 0
-            //availDirections[1] = SpriteDirectionVector.Y > .2 ? true : false;               //Down - 1
-            //availDirections[2] = SpriteDirectionVector.X < -.2 ? true : false;              //left - 2
-            //availDirections[3] = SpriteDirectionVector.X > .2 ? true : false;               //right - 3
-
-            ////Marks all the dual directions.
-            //availDirections[4] = availDirections[0] && availDirections[2] ? true : false;   //up left
-            //availDirections[5] = availDirections[0] && availDirections[3] ? true : false;   //up right
-            //availDirections[6] = availDirections[1] && availDirections[2] ? true : false;   //down left
-            //availDirections[7] = availDirections[1] && availDirections[3] ? true : false;   //down right
-
-            ////Go through the array backward and register the first true as the direction.
-            //for (int i = 7; i >= 0; i--)
-            //{
-            //    if (availDirections[i])
-            //    {
-            //        SpriteDirection = (Direction)i;
-            //        return;
-            //    }
-            //}
 
             //default to no motion
-            SpriteDirection = Direction.Still;
+            SpriteDirection = Direction.Down;
         }
 
         /// <summary>
