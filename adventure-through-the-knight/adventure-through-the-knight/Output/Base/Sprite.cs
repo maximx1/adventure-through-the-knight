@@ -27,8 +27,9 @@ namespace adventure_through_the_knight.Output
         private int totalFrames;                                    //The number of frames available for an animation.
         private int currentFrame = 1;                               //The current frame of animation.
         private double timeSinceLastFrame;                          //A counter to determine if animation should advance.
-        private Direction SpriteDirection;                          //The direction the Sprite is facing
-        private Direction LastDirection;
+        private Direction SpriteDirection;                          //The direction the Sprite is facing.
+        private Direction LastDirection;                            //The Last direction that the sprite was walking.
+        private Direction MovementDirection;                        //The direction of motion.
         
         protected Dictionary<Direction, int> spriteSheetRows;       //Dictionary holding the different animations of the character.
         protected Vector2 Velocity { get; set; }                    //The direction of the sprite.
@@ -191,6 +192,7 @@ namespace adventure_through_the_knight.Output
             if (SpriteDirectionVector == Vector2.Zero)
             {
                 this.SpriteDirection = LastDirection;
+                this.MovementDirection = Direction.Still;
                 return;
             }
 
@@ -207,6 +209,7 @@ namespace adventure_through_the_knight.Output
                 if(InRange(angleFromVector, (float)i * 45, (float)i * 45 + 45))
                 {
                     SpriteDirection = (Direction)i;
+                    MovementDirection = SpriteDirection;
                     LastDirection = SpriteDirection;
                     return;
                 }
@@ -214,6 +217,7 @@ namespace adventure_through_the_knight.Output
 
             //default to no motion
             SpriteDirection = Direction.Down;
+            MovementDirection = Direction.Still;
         }
 
         /// <summary>
@@ -229,8 +233,13 @@ namespace adventure_through_the_knight.Output
         }
 
         /// <summary>
-        /// Gets the player's direction.
+        /// Gets the player's facing direction.
         /// </summary>
         public Direction SPRITE_DIRECTION { get { return SpriteDirection; } }
+
+        /// <summary>
+        /// Gets the player's movement direction.
+        /// </summary>
+        public Direction SPRITE_MOVEMENT_DIRECTION { get { return MovementDirection; } }
     }
 }
