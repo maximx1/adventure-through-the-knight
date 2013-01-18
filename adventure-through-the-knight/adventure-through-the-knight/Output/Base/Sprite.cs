@@ -209,7 +209,7 @@ namespace adventure_through_the_knight.Output
                 if(InRange(angleFromVector, (float)i * 45, (float)i * 45 + 45))
                 {
                     SpriteDirection = (Direction)i;
-                    MovementDirection = SpriteDirection;
+                    MovementDirection = this.moved ? SpriteDirection : Direction.Still;
                     LastDirection = SpriteDirection;
                     return;
                 }
