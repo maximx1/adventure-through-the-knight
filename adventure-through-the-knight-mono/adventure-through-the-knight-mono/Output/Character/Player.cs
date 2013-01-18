@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,9 +17,18 @@ namespace adventure_through_the_knight.Output.Character
 {
     class Player : Sprite
     {
-        private bool moved;
+		private InputController Input;                              //The game's input manager
+        private InputController.InputDeviceType CurrentInputType;   //The players input type choice
 
-		InputController Input;
+        public bool CloseGame { get; set; }     //A bool to allow the game to quit when the update loop occurs.
+
+        private Direction playerDirection;
+        public Direction PlayerDirection { get { return playerDirection; } }
+        public Dictionary<Direction, int> SpriteSheetRows
+        {
+            get { return spriteSheetRows; }
+        }
+
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="adventure_through_the_knight.Output.Character.Player"/> class.
@@ -34,10 +43,12 @@ namespace adventure_through_the_knight.Output.Character
 		/// Movement bounds.
 		/// </param>
         public Player(Texture2D texture, Vector2 position, Rectangle movementBounds)
-            : base(texture, position, movementBounds, 1, 4, 7)
+            : base(texture, position, movementBounds, 1, 4, 11, 1, 1, 1, 1, 1)
         {
-            this.Speed = 100;
-			this.Input = new InputController(InputController.InputDeviceType.KEYBOARD);
+            this.CloseGame = false;
+            this.Speed = 60;
+            this.CurrentInputType = InputController.InputDeviceType.GAMEPAD;
+            this.Input = new InputController(CurrentInputType);
         }
 
 		/// <summary>
@@ -50,17 +61,25 @@ namespace adventure_through_the_knight.Output.Character
         {
 			//Update the game input controller
 			Input.GetState();
+            if (Input.PAUSE)
+            {
+                CloseGame = true;
+                return;
+            }
+
+            //Implements run function.
+            if (Input.LSHIFT)
+                Speed = 100;
+            else
+                Speed = 60;
+
+            //Call method to update the player's direction.
+            UpdateSpriteDirectionVector();
 
 			//Update the character movement
             UpdateVelocity();
 
-			/*
-			 * This part is uber hacked - won't allow acceleration animations.
-			 * Only updates the visuals if the character has actually moved.
-			 * TODO: Edit to throw event to accelerate and deccelerate.
-			 */
-			if(moved)
-            	base.Update(gameTime);
+            base.Update(gameTime);
         }
 
 		/// <summary>
@@ -69,56 +88,19 @@ namespace adventure_through_the_knight.Output.Character
         private void UpdateVelocity ()
 		{
 			//Default to a no movement - blocks the update of the sprite.
-			moved = false;
+			this.moved = false;
 
-			var velocity = Vector2.Zero;
+            if (Input.LEFT_THUMBSTICK != Vector2.Zero)
+            {
+                moved = true;
+            }
+            
+            Velocity = Input.LEFT_THUMBSTICK;
+        }
 
-//			var keyDictionary = new Dictionary<Boolean, Vector2>
-//            {
-//                {Input.LEFT, new Vector2(-1, 0)},
-//                {Input.RIGHT, new Vector2(1, 0)},
-//                {Input.UP, new Vector2(0, -1)},
-//                {Input.DOWN, new Vector2(0, 1)}
-//            };
-
-			if(Input.LEFT)
-				velocity += new Vector2(-1, 0);
-			if(Input.RIGHT)
-				velocity += new Vector2(1, 0);
-			if(Input.UP)
-				velocity += new Vector2(0, -1);
-			if(Input.DOWN)
-				velocity += new Vector2(0, 1);
-
-
-//			foreach (var key in keyDictionary) {
-//				if (key.Key)
-//					velocity += key.Value;
-//			}
-
-			//TODO: Edit the input manager so that the values are all in a list so that we can linq it.
-
-			if (velocity != Vector2.Zero)
-			{
-				moved = true;
-				velocity.Normalize ();
-			}
-
-			//if(Input.UP
-
-            //foreach (var keypress in keyboardState.GetPressedKeys())
-            //{
-                //Vector2 value = new Vector2();
-
-
-                //keyDictionary.TryGetValue(keypress, out value);
-                //if (value != null)
-                //{
-                    //velocity += value;
-                //}
-            //}
-
-            Velocity = velocity;
+        private void UpdateSpriteDirectionVector()
+        {
+            SpriteDirectionVector = Input.RIGHT_THUMBSTICK;
         }
     }
 }

@@ -35,14 +35,21 @@ namespace adventure_through_the_knight.Output
 		/// <param name='currentFrame'>
 		/// Current frame.
 		/// </param>
-        public static Rectangle CalculateSourceRect(int textureWidth, int textureHeight, int columns, int rows, int currentFrame)
+        /// <param name="Moved">
+        /// Tells if the character has moved
+        /// </param>
+        public static Rectangle CalculateSourceRect(int textureWidth, int textureHeight, int columns, int rows, int currentFrame, bool Moved)
         {
-			var imageWidth = textureWidth / columns;
+            var imageWidth = textureWidth / columns;
             var imageHeight = textureHeight / rows;
 
-            var currentRow = currentFrame / columns;
-            var currentColumn = currentFrame % columns;
-
+            var currentRow = 0;
+            var currentColumn = 1;
+            if (Moved)
+            {
+                currentRow = currentFrame / columns;
+                currentColumn = currentFrame % columns;
+            }
             return new Rectangle(imageWidth * currentColumn, imageHeight * currentRow, imageWidth, imageHeight);
         }
 
