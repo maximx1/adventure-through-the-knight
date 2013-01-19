@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -206,7 +206,7 @@ namespace adventure_through_the_knight.Output
 
             for(int i = 0; i < 8; i++)
             {
-                if(InRange(angleFromVector, (float)i * 45, (float)i * 45 + 45))
+                if(Utilities.Math.Range.InRange(angleFromVector, (float)i * 45, (float)i * 45 + 45))
                 {
                     SpriteDirection = (Direction)i;
                     MovementDirection = this.moved ? SpriteDirection : Direction.Still;
@@ -218,18 +218,6 @@ namespace adventure_through_the_knight.Output
             //default to no motion
             SpriteDirection = Direction.Down;
             MovementDirection = Direction.Still;
-        }
-
-        /// <summary>
-        /// Test if a number is within the range of another number.
-        /// </summary>
-        /// <param name="TestVariable">True if the value is within range</param>
-        /// <param name="Min">The Minimum number inclusive.</param>
-        /// <param name="Max">The Maximum number non-inclusive</param>
-        /// <returns></returns>
-        public bool InRange(float TestVariable, float Min, float Max)
-        {
-            return TestVariable < Max && TestVariable >= Min ? true : false; 
         }
 
         /// <summary>

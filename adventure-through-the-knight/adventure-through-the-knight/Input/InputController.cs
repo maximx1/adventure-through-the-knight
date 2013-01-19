@@ -30,10 +30,15 @@ namespace adventure_through_the_knight.Input
         /// </summary>
         /// <param name="inputType">The input device type. Defaults the keyboard if you send empty or null.</param>
         public InputController(InputDeviceType inputType)
-        {
-            InputType = inputType;
+		{
+			InputType = inputType;
 
-            ButtonList = new bool[] { false, false, false, false, false, false };
+			List<bool> buttonListMaker = new List<bool>();
+			for(int i = 0; i < Enum.GetNames(typeof(G_key.G_KEY)).Length; i++)
+			{
+				buttonListMaker.Add(false);
+			}
+			ButtonList = buttonListMaker.ToArray();
 
             //First Player keyboard
             InputKeyboard = InputType == InputDeviceType.KEYBOARD ? Keyboard.GetState() : new KeyboardState();
