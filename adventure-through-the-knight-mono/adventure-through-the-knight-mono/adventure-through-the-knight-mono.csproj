@@ -60,6 +60,7 @@
     <Compile Include="Utilities\Error Logging\Error Log.cs" />
     <Compile Include="Utilities\File System\File Check.cs" />
     <Compile Include="Utilities\Math\UnitConverter.cs" />
+    <Compile Include="Utilities\Math\Range.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />

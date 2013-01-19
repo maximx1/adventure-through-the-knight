@@ -22,8 +22,6 @@ namespace adventure_through_the_knight.Output.Character
 
         public bool CloseGame { get; set; }     //A bool to allow the game to quit when the update loop occurs.
 
-        private Direction playerDirection;
-        public Direction PlayerDirection { get { return playerDirection; } }
         public Dictionary<Direction, int> SpriteSheetRows
         {
             get { return spriteSheetRows; }
@@ -47,7 +45,7 @@ namespace adventure_through_the_knight.Output.Character
         {
             this.CloseGame = false;
             this.Speed = 60;
-            this.CurrentInputType = InputController.InputDeviceType.GAMEPAD;
+            this.CurrentInputType = InputController.InputDeviceType.KEYBOARD;
             this.Input = new InputController(CurrentInputType);
         }
 
@@ -58,16 +56,16 @@ namespace adventure_through_the_knight.Output.Character
 		///  Game time. 
 		/// </param>
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
-        {
+		{
 			//Update the game input controller
 			Input.GetState();
-            if (Input.PAUSE)
-            {
-                CloseGame = true;
-                return;
-            }
+			if(Input.PAUSE)
+			{
+				CloseGame = true;
+				return;
+			}
 
-            //Implements run function.
+            //Implements run functionality.
             if (Input.LSHIFT)
                 Speed = 100;
             else

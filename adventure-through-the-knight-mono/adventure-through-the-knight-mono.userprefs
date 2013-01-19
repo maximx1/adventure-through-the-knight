@@ -1,9 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="adventure-through-the-knight-mono/Output/Character/Player.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="adventure-through-the-knight-mono/Output/Base/Sprite.cs">
     <Files>
       <File FileName="adventure-through-the-knight-mono/Game1.cs" Line="62" Column="2" />
-      <File FileName="adventure-through-the-knight-mono/Output/Character/Player.cs" Line="51" Column="64" />
+      <File FileName="adventure-through-the-knight-mono/Output/Character/Player.cs" Line="24" Column="1" />
+      <File FileName="adventure-through-the-knight-mono/Output/Base/Sprite.cs" Line="205" Column="41" />
+      <File FileName="adventure-through-the-knight-mono/Utilities/Math/UnitConverter.cs" Line="27" Column="23" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
