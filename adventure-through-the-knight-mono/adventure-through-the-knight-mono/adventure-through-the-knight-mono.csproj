@@ -56,14 +56,21 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Output\SpriteSheetCalculator.cs" />
     <Compile Include="Output\Base\Sprite.cs" />
+    <Compile Include="Input\G_key.cs" />
+    <Compile Include="Utilities\Error Logging\Error Log.cs" />
+    <Compile Include="Utilities\File System\File Check.cs" />
+    <Compile Include="Utilities\Math\UnitConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Icon.png" />
+    <None Include="Content\SpriteFonts\DebugOverlay.xnb" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
     <Folder Include="Output\" />
     <Folder Include="Input\" />
+    <Folder Include="Content\SpriteFonts\" />
+    <Folder Include="Utilities\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
