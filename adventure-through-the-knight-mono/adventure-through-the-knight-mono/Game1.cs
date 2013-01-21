@@ -102,7 +102,9 @@ namespace adventure_through_the_knight
             player.Draw(spriteBatch);
 
             spriteBatch.DrawString(DebugText, "Sprite facing direction: " + player.SPRITE_DIRECTION.ToString() +
-                                               " | Sprite moving direction: " + player.SPRITE_MOVEMENT_DIRECTION, 
+                                               " | Sprite moving direction: " + player.SPRITE_MOVEMENT_DIRECTION + 
+			                       				" | \n" + player.Input.MOUSE_POSITION.ToString() + 
+			                       				" | \n" + player.position.ToString(), 
                                                Vector2.Zero, Color.White);
 
             spriteBatch.End();

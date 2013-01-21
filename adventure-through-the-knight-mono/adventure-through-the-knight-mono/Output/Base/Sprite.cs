@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+#region XNA framework usings
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -9,8 +10,12 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+#endregion
+#region internal using statements
+using adventure_through_the_knight.Utilities.Math;
+#endregion
 
-namespace adventure_through_the_knight.Output
+namespace adventure_through_the_knight.Output.Base
 {
     class Sprite
     {
@@ -20,7 +25,7 @@ namespace adventure_through_the_knight.Output
         public readonly int columns;                                //The number of animations per row.
         public enum Direction { Right, Up_Right, Up, Up_Left, Left, Down_Left, Down, Down_Right, Still };   //Lists the available directions. Do not change order.
         
-        private Vector2 position;                                   //Location of the sprite in the world.
+        public Vector2 position;                                   //Location of the sprite in the world.
         private readonly Texture2D texture;                         //The texture for the sprite.
         private readonly Rectangle movementBounds;                  //The available movement bounds.
         private readonly double framesPerSecond;                    //The speed of how fast the frames should update.
@@ -187,37 +192,57 @@ namespace adventure_through_the_knight.Output
         /// Converts the vector into a set direction.
         /// </summary>
         private void UpdateDirection()
-        {
-            //Stop if there is no motion
-            if (SpriteDirectionVector == Vector2.Zero)
-            {
-                this.SpriteDirection = LastDirection;
-                this.MovementDirection = Direction.Still;
-                return;
-            }
+		{
+			//Stop if there is no motion
+			if(SpriteDirectionVector == Vector2.Zero)
+			{
+				this.SpriteDirection = LastDirection;
+				this.MovementDirection = Direction.Still;
+				return;
+			}
 
-            float angleFromVector = Utilities.Math.UnitConverter.RadToDegrees((float)Math.Atan2(-SpriteDirectionVector.Y, SpriteDirectionVector.X));
 
-            //Adjust the angle to register direction right with only one 45 degree increment.
-            angleFromVector += 22.5f;
+			SpriteDirection = UnitConverter.DegreesTo8Point(
+								UnitConverter.RadToDegrees(
+								UnitConverter.VectorToRad(SpriteDirectionVector))
+			);
+			if(this.moved)
+			{
+				MovementDirection = UnitConverter.DegreesTo8Point(
+									UnitConverter.RadToDegrees(
+									UnitConverter.VectorToRad(Velocity)));
+			}
+			else
+			{
+				this.MovementDirection = Direction.Still;
+			}
+			LastDirection = SpriteDirection;
+			return;
 
-            if (angleFromVector < 0)
-                angleFromVector += 360f;
-
-            for(int i = 0; i < 8; i++)
-            {
-                if(Utilities.Math.Range.InRange(angleFromVector, (float)i * 45, (float)i * 45 + 45))
-                {
-                    SpriteDirection = (Direction)i;
-                    MovementDirection = this.moved ? SpriteDirection : Direction.Still;
-                    LastDirection = SpriteDirection;
-                    return;
-                }
-            }
-
-            //default to no motion
-            SpriteDirection = Direction.Down;
-            MovementDirection = Direction.Still;
+			#region Angle converting un-modular
+//			float angleFromVector = UnitConverter.RadToDegrees(UnitConverter.VectorToRad(SpriteDirectionVector));
+//
+//            //Adjust the angle to register direction right with only one 45 degree increment.
+//            angleFromVector += 22.5f;
+//
+//            if (angleFromVector < 0)
+//                angleFromVector += 360f;
+//
+//            for(int i = 0; i < 8; i++)
+//            {
+//                if(Range.InRange(angleFromVector, (float)i * 45, (float)i * 45 + 45))
+//                {
+//                    SpriteDirection = (Direction)i;
+//                    MovementDirection = this.moved ? SpriteDirection : Direction.Still;
+//                    LastDirection = SpriteDirection;
+//                    return;
+//                }
+//            }
+//
+//            //default to no motion
+//            SpriteDirection = Direction.Down;
+//            MovementDirection = Direction.Still;
+			#endregion
         }
 
         /// <summary>

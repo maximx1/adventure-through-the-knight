@@ -10,14 +10,15 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-//using adventure_through_the_knight.Output.Base;
+using adventure_through_the_knight.Output.Base;
 using adventure_through_the_knight.Input;
+using adventure_through_the_knight.Utilities.Math;
 
 namespace adventure_through_the_knight.Output.Character
 {
     class Player : Sprite
     {
-		private InputController Input;                              //The game's input manager
+		public InputController Input;                              //The game's input manager
         private InputController.InputDeviceType CurrentInputType;   //The players input type choice
 
         public bool CloseGame { get; set; }     //A bool to allow the game to quit when the update loop occurs.
@@ -97,8 +98,15 @@ namespace adventure_through_the_knight.Output.Character
         }
 
         private void UpdateSpriteDirectionVector()
-        {
-            SpriteDirectionVector = Input.RIGHT_THUMBSTICK;
+		{
+			if(CurrentInputType == InputController.InputDeviceType.GAMEPAD)
+			{
+				SpriteDirectionVector = Input.RIGHT_THUMBSTICK;
+			}
+			else
+			{
+				SpriteDirectionVector = Vector2.Subtract(Input.MOUSE_POSITION, this.position);
+			}
         }
     }
 }
