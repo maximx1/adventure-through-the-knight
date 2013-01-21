@@ -17,11 +17,12 @@ namespace adventure_through_the_knight.Output.Walls
         /// <summary>
         /// list of wall objects
         /// </summary>
-        private List<Wall> walls;
+        private List<Wall> walls = new List<Wall>();
         /// <summary>
         /// graphics device for passing in viewport bounds to constructor
         /// </summary>
         private readonly GraphicsDevice graphics;
+
 
         /// <summary>
         /// Getter for the walls list
@@ -38,7 +39,6 @@ namespace adventure_through_the_knight.Output.Walls
         public WallManager(GraphicsDevice graphics)
         {
             this.graphics = graphics;
-            walls = new List<Wall>();
         }
 
         /// <summary>

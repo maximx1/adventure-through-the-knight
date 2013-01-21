@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-using adventure_through_the_knight.Output.Walls;
-
 namespace adventure_through_the_knight.Output
 {
     static class CollisionManager
@@ -16,19 +14,15 @@ namespace adventure_through_the_knight.Output
         /// <param name="wallManager">wallManager to get list of walls</param>
         /// <param name="boundingBox">sprite's calculated boundingBox based on newPosition</param>
         /// <returns>true if any wall rectangles intersect the sprites bouding box</returns>
-        public static bool CheckForWallCollison(WallManager wallManager, Rectangle boundingBox)
+        public static bool CheckForWallCollison(Walls.WallManager wallManager, Rectangle boundingBox)
         {
-            try
+            foreach (var wall in wallManager.Walls)
             {
-                foreach (var wall in wallManager.Walls)
+                if (wall.BoundingBox.Intersects(boundingBox))
                 {
-                    if (wall.BoundingBox.Intersects(boundingBox))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
-            catch (Exception er) { }
             return false;
         }
 

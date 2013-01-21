@@ -22,6 +22,7 @@ namespace adventure_through_the_knight
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        public WallManager MainWallManager;
 
         SpriteFont DebugText;
 
@@ -34,6 +35,7 @@ namespace adventure_through_the_knight
             graphics.PreferredBackBufferWidth = 800;        //The Width of the Window
             Content.RootDirectory = "Content";
             graphics.IsFullScreen = false;				    //Turn off full screen.
+            this.IsMouseVisible = true;
         }
 
         /// <summary>
@@ -48,6 +50,7 @@ namespace adventure_through_the_knight
 
             //TV Manafacturers use black in between frames to help smooth out frame intervals.
             ScreenColor = Color.Black;
+            MainWallManager = new WallManager(graphics);
         }
 
         /// <summary>
@@ -60,6 +63,7 @@ namespace adventure_through_the_knight
             spriteBatch = new SpriteBatch(GraphicsDevice);
             player = new Player(Content.Load<Texture2D>("player1"), new Vector2(200, 200), graphics.GraphicsDevice.Viewport.Bounds);    //Player 1
             DebugText = Content.Load<SpriteFont>(@"SpriteFonts\DebugOverlay");	//In Mono make sure that spritefonts are ".xnb"
+            //player.SetWallManager(MainWallManager);
         }
 
         /// <summary>
@@ -102,9 +106,7 @@ namespace adventure_through_the_knight
             player.Draw(spriteBatch);
 
             spriteBatch.DrawString(DebugText, "Sprite facing direction: " + player.SPRITE_DIRECTION.ToString() +
-                                               " | Sprite moving direction: " + player.SPRITE_MOVEMENT_DIRECTION + 
-			                       				" | \n" + player.Input.MOUSE_POSITION.ToString() + 
-			                       				" | \n" + player.position.ToString(), 
+                                               " | Sprite moving direction: " + player.SPRITE_MOVEMENT_DIRECTION,
                                                Vector2.Zero, Color.White);
 
             spriteBatch.End();

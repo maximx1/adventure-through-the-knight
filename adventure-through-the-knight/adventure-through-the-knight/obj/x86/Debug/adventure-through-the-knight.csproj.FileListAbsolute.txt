@@ -1,9 +1,3 @@
-C:\Users\Maximx1\Documents\Development\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\bin\x86\Debug\adventure-through-the-knight.exe
-C:\Users\Maximx1\Documents\Development\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\bin\x86\Debug\adventure-through-the-knight.pdb
-C:\Users\Maximx1\Documents\Development\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\obj\x86\Debug\adventure-through-the-knight.csprojResolveAssemblyReference.cache
-C:\Users\Maximx1\Documents\Development\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
-C:\Users\Maximx1\Documents\Development\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\obj\x86\Debug\adventure-through-the-knight.exe
-C:\Users\Maximx1\Documents\Development\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\obj\x86\Debug\adventure-through-the-knight.pdb
 C:\Documents and Settings\Development016\My Documents\GameDev\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\bin\x86\Debug\adventure-through-the-knight.exe
 C:\Documents and Settings\Development016\My Documents\GameDev\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\bin\x86\Debug\adventure-through-the-knight.pdb
 C:\Documents and Settings\Development016\My Documents\GameDev\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\obj\x86\Debug\ResolveAssemblyReference.cache
@@ -18,6 +12,11 @@ C:\Users\Nate\Documents\GitHub\adventure-through-the-knight\adventure-through-th
 C:\Users\Nate\Documents\GitHub\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\obj\x86\Debug\adventure-through-the-knight.pdb
 C:\Users\Nate\Documents\GitHub\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\bin\x86\Debug\Content\player1.xnb
 C:\Documents and Settings\Development016\My Documents\GameDev\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\bin\x86\Debug\Content\player1.xnb
+C:\Users\Nate\Documents\GitHub\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\bin\x86\Debug\Content\SpriteFonts\DebugOverlay.xnb
 C:\Users\Maximx1\Documents\Development\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\bin\x86\Debug\Content\player1.xnb
 C:\Users\Maximx1\Documents\Development\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\bin\x86\Debug\Content\SpriteFonts\DebugOverlay.xnb
-C:\Users\Nate\Documents\GitHub\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\bin\x86\Debug\Content\SpriteFonts\DebugOverlay.xnb
+C:\Users\Maximx1\Documents\Development\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\bin\x86\Debug\adventure-through-the-knight.exe
+C:\Users\Maximx1\Documents\Development\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\bin\x86\Debug\adventure-through-the-knight.pdb
+C:\Users\Maximx1\Documents\Development\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\Maximx1\Documents\Development\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\obj\x86\Debug\adventure-through-the-knight.exe
+C:\Users\Maximx1\Documents\Development\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\obj\x86\Debug\adventure-through-the-knight.pdb

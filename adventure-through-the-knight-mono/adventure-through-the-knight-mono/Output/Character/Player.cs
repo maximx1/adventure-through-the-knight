@@ -18,7 +18,7 @@ namespace adventure_through_the_knight.Output.Character
 {
     class Player : Sprite
     {
-		public InputController Input;                              //The game's input manager
+		private InputController Input;                              //The game's input manager
         private InputController.InputDeviceType CurrentInputType;   //The players input type choice
 
         public bool CloseGame { get; set; }     //A bool to allow the game to quit when the update loop occurs.
@@ -97,6 +97,9 @@ namespace adventure_through_the_knight.Output.Character
             Velocity = Input.LEFT_THUMBSTICK;
         }
 
+        /// <summary>
+        /// Updates the direction of the character based on the mouse of the gamepad.
+        /// </summary>
         private void UpdateSpriteDirectionVector()
 		{
 			if(CurrentInputType == InputController.InputDeviceType.GAMEPAD)

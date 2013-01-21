@@ -13,12 +13,14 @@ namespace adventure_through_the_knight.Input
         private bool[] ButtonList;
         private Vector2 LeftTS;
         private Vector2 RightTS;
+        private Vector2 MousePosition;
         private Dictionary<G_key.G_KEY, Vector2> KeyDictionary;
 
         //Constant states for all input devices
         private InputDeviceType InputType;
         private KeyboardState InputKeyboard;
         private GamePadState InputGamepad;
+        private MouseState InputMouse;
 
         //Input Type register
         public enum InputDeviceType { KEYBOARD, GAMEPAD };
@@ -30,20 +32,23 @@ namespace adventure_through_the_knight.Input
         /// </summary>
         /// <param name="inputType">The input device type. Defaults the keyboard if you send empty or null.</param>
         public InputController(InputDeviceType inputType)
-		{
-			InputType = inputType;
+        {
+            InputType = inputType;
 
-			List<bool> buttonListMaker = new List<bool>();
-			for(int i = 0; i < Enum.GetNames(typeof(G_key.G_KEY)).Length; i++)
-			{
-				buttonListMaker.Add(false);
-			}
-			ButtonList = buttonListMaker.ToArray();
+            List<bool> buttonListMaker = new List<bool>();
+            for (int i = 0; i < Enum.GetNames(typeof(G_key.G_KEY)).Length; i++)
+            {
+                buttonListMaker.Add(false);
+            }
+            ButtonList = buttonListMaker.ToArray();
 
             //First Player keyboard
             InputKeyboard = InputType == InputDeviceType.KEYBOARD ? Keyboard.GetState() : new KeyboardState();
+            //First Player mouse
+            InputMouse = inputType == InputDeviceType.KEYBOARD ? Mouse.GetState() : new MouseState();
             //First Player gamepad
             InputGamepad = InputType == InputDeviceType.GAMEPAD ? GamePad.GetState(PlayerIndex.One) : new GamePadState();
+
 
             KeyDictionary = new Dictionary<G_key.G_KEY, Vector2>
             {
@@ -61,6 +66,7 @@ namespace adventure_through_the_knight.Input
         {
             if (InputType == InputDeviceType.KEYBOARD)
             {
+                //Keyboard input
                 LeftTS = Vector2.Zero;
                 InputKeyboard = Keyboard.GetState();
                 ButtonList[0] = InputKeyboard.IsKeyDown(Keys.Escape) ? true : false;
@@ -74,9 +80,14 @@ namespace adventure_through_the_knight.Input
                 foreach (var key in KeyDictionary)
                 {
                     if (this.IsPressed(key.Key))
-                       LeftTS += key.Value;
+                        LeftTS += key.Value;
                 }
-                RightTS = LeftTS;
+                //RightTS = LeftTS;
+
+                //Mouse input
+                InputMouse = Mouse.GetState();
+                MousePosition = new Vector2(InputMouse.X, InputMouse.Y);
+
             }
 
             if (InputType == InputDeviceType.GAMEPAD)
@@ -84,7 +95,7 @@ namespace adventure_through_the_knight.Input
                 InputGamepad = GamePad.GetState(PlayerIndex.One);
 
                 ButtonList[0] = InputGamepad.Buttons.Start == ButtonState.Pressed ? true : false;
-                
+
                 //Reset the Button inputs
                 for (int i = 1; i < ButtonList.Length; i++)
                 {
@@ -124,13 +135,8 @@ namespace adventure_through_the_knight.Input
 
                 LeftTS = InputGamepad.ThumbSticks.Left;
                 LeftTS.Y *= -1;
-                if (LeftTS == Vector2.Zero)
-                {
-                    RightTS = InputGamepad.ThumbSticks.Right;
-                    RightTS.Y *= -1;
-                }
-                else
-                    RightTS = LeftTS;
+                RightTS = InputGamepad.ThumbSticks.Right;
+                RightTS.Y *= -1;
             }
         }
 
@@ -198,5 +204,13 @@ namespace adventure_through_the_knight.Input
         /// Gets the Vector value of the right thumbstick.
         /// </summary>
         public Vector2 RIGHT_THUMBSTICK { get { return RightTS; } }
+
+        /// <summary>
+        /// Gets the position of the mouse.
+        /// </summary>
+        /// <value>
+        /// The mouse Position
+        /// </value>
+        public Vector2 MOUSE_POSITION { get { return MousePosition; } }
     }
 }

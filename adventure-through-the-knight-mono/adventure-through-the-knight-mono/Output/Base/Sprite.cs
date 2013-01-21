@@ -25,7 +25,7 @@ namespace adventure_through_the_knight.Output.Base
         public readonly int columns;                                //The number of animations per row.
         public enum Direction { Right, Up_Right, Up, Up_Left, Left, Down_Left, Down, Down_Right, Still };   //Lists the available directions. Do not change order.
         
-        public Vector2 position;                                   //Location of the sprite in the world.
+        private Vector2 position;                                   //Location of the sprite in the world.
         private readonly Texture2D texture;                         //The texture for the sprite.
         private readonly Rectangle movementBounds;                  //The available movement bounds.
         private readonly double framesPerSecond;                    //The speed of how fast the frames should update.
@@ -35,6 +35,7 @@ namespace adventure_through_the_knight.Output.Base
         private Direction SpriteDirection;                          //The direction the Sprite is facing.
         private Direction LastDirection;                            //The Last direction that the sprite was walking.
         private Direction MovementDirection;                        //The direction of motion.
+        private Walls.WallManager wallManager;                       // wall manager for collision detection
         
         protected Dictionary<Direction, int> spriteSheetRows;       //Dictionary holding the different animations of the character.
         protected Vector2 Velocity { get; set; }                    //The direction of the sprite.
@@ -114,7 +115,7 @@ namespace adventure_through_the_knight.Output.Base
 		/// <param name='spriteBatch'>
 		/// Sprite batch.
 		/// </param>
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             var sourceRectangle = SpriteSheetCalculator.CalculateSourceRect((int)Width, (int)Height, columns, rows, currentFrame, moved);
             var destinationRectangle = SpriteSheetCalculator.CalculateDestinationRect(position, sourceRectangle);
@@ -131,6 +132,12 @@ namespace adventure_through_the_knight.Output.Base
         private bool Blocked(Vector2 newPosition)
         {
             var boundingBox = CreateBoundingBoxFromPosition(newPosition);
+            // Check for any collisions with walls.
+            if (CollisionManager.CheckForWallCollison(wallManager, boundingBox) == true)
+            {
+                return true;
+            }
+
             return !movementBounds.Contains(boundingBox);
         }
 
@@ -243,6 +250,15 @@ namespace adventure_through_the_knight.Output.Base
 //            SpriteDirection = Direction.Down;
 //            MovementDirection = Direction.Still;
 			#endregion
+        }
+
+        /// <summary>
+        /// Sets the sprite's wall manager
+        /// </summary>
+        /// <param name="wallManager">the room of walls to check for collisions against</param>
+        public void SetWallManager(Walls.WallManager wallManager)
+        {
+            this.wallManager = wallManager;
         }
 
         /// <summary>

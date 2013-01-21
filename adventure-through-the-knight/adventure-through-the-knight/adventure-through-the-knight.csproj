@@ -110,13 +110,17 @@
     <Compile Include="Input\G_key.cs" />
     <Compile Include="Input\InputController.cs" />
     <Compile Include="Output\Character\Player.cs" />
+    <Compile Include="Output\CollisionManager.cs" />
     <Compile Include="Output\SpriteSheetCalculator.cs" />
+    <Compile Include="Output\Walls\Wall.cs" />
+    <Compile Include="Output\Walls\WallManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Output\Base\Sprite.cs" />
     <Compile Include="Utilities\Error Logging\Error Log.cs" />
     <Compile Include="Utilities\File System\File Check.cs" />
+    <Compile Include="Utilities\Math\Range.cs" />
     <Compile Include="Utilities\Math\UnitConverter.cs" />
     <Compile Include="Utilities\Serializer\Serializer.cs" />
   </ItemGroup>
