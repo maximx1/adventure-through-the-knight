@@ -1,8 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="adventure-through-the-knight-mono/Output/Character/Player.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="adventure-through-the-knight-mono/Input/InputController.cs">
     <Files>
-      <File FileName="adventure-through-the-knight-mono/Input/InputController.cs" Line="138" Column="19" />
+      <File FileName="adventure-through-the-knight-mono/Input/InputController.cs" Line="138" Column="17" />
       <File FileName="adventure-through-the-knight-mono/Output/Base/Sprite.cs" Line="200" Column="5" />
       <File FileName="adventure-through-the-knight-mono/Input/G_key.cs" Line="25" Column="8" />
       <File FileName="adventure-through-the-knight-mono/Utilities/Math/UnitConverter.cs" Line="35" Column="4" />

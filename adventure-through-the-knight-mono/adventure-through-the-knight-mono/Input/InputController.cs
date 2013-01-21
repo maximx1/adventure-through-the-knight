@@ -135,13 +135,8 @@ namespace adventure_through_the_knight.Input
 
                 LeftTS = InputGamepad.ThumbSticks.Left;
                 LeftTS.Y *= -1;
-                //if (LeftTS == Vector2.Zero)
-                //{
-                    RightTS = InputGamepad.ThumbSticks.Right;
-                    RightTS.Y *= -1;
-                //}
-                //else
-                    //RightTS = LeftTS;
+                RightTS = InputGamepad.ThumbSticks.Right;
+               	RightTS.Y *= -1;
             }
         }
 
