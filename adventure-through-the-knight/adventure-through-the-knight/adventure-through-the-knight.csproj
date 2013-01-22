@@ -111,6 +111,9 @@
     <Compile Include="Input\InputController.cs" />
     <Compile Include="Output\Character\Player.cs" />
     <Compile Include="Output\CollisionManager.cs" />
+    <Compile Include="Output\Menu Overlay\MainMenu.cs" />
+    <Compile Include="Output\Menu Overlay\MenuButton.cs" />
+    <Compile Include="Output\Menu Overlay\PauseMenu.cs" />
     <Compile Include="Output\SpriteSheetCalculator.cs" />
     <Compile Include="Output\Walls\Wall.cs" />
     <Compile Include="Output\Walls\WallManager.cs" />
@@ -123,6 +126,7 @@
     <Compile Include="Utilities\Math\Range.cs" />
     <Compile Include="Utilities\Math\UnitConverter.cs" />
     <Compile Include="Utilities\Serializer\Serializer.cs" />
+    <Compile Include="Utilities\Settings\IOSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
