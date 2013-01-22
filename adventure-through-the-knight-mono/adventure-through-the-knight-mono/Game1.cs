@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 using adventure_through_the_knight.Input;
 using adventure_through_the_knight.Output.Character;
+using adventure_through_the_knight.Utilities.Error_Log;
 
 namespace adventure_through_the_knight
 {
@@ -21,20 +22,20 @@ namespace adventure_through_the_knight
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        public WallManager MainWallManager;
 
-        InputController InputManager;
+        SpriteFont DebugText;
+
         Color ScreenColor;
         Player player;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferHeight = 600;
-            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = 600;       //The Height of the Window
+            graphics.PreferredBackBufferWidth = 800;        //The Width of the Window
             Content.RootDirectory = "Content";
-            graphics.IsFullScreen = false;				//Turn off full screen.
-
-			//Input for the background color change.
-            InputManager = new InputController(InputController.InputDeviceType.KEYBOARD);
+            graphics.IsFullScreen = false;				    //Turn off full screen.
+            this.IsMouseVisible = true;
         }
 
         /// <summary>
@@ -45,10 +46,11 @@ namespace adventure_through_the_knight
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
-            ScreenColor = Color.White;
+
+            //TV Manafacturers use black in between frames to help smooth out frame intervals.
+            ScreenColor = Color.Black;
+            MainWallManager = new WallManager(graphics);
         }
 
         /// <summary>
@@ -59,8 +61,9 @@ namespace adventure_through_the_knight
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            player = new Player(Content.Load<Texture2D>("player1"), new Vector2(200, 200), graphics.GraphicsDevice.Viewport.Bounds);
-            // TODO: use this.Content to load your game content here
+            player = new Player(Content.Load<Texture2D>("player1"), new Vector2(200, 200), graphics.GraphicsDevice.Viewport.Bounds);    //Player 1
+            DebugText = Content.Load<SpriteFont>(@"SpriteFonts\DebugOverlay");	//In Mono make sure that spritefonts are ".xnb"
+            //player.SetWallManager(MainWallManager);
         }
 
         /// <summary>
@@ -79,14 +82,12 @@ namespace adventure_through_the_knight
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            InputManager.GetState();
-
-            // Allows the game to exit
-            if (InputManager.PAUSE)
-                Exit();
-
             player.Update(gameTime);
-            // TODO: Add your update logic here
+
+            //Safely closes the game.
+            //We should possible add some more functions to close databases and store last minute saves.
+            if (player.CloseGame)
+                Exit();
 
             base.Update(gameTime);
         }
@@ -99,14 +100,18 @@ namespace adventure_through_the_knight
         {
             GraphicsDevice.Clear(ScreenColor);
 
-            //Add game character here for testing
-
+            //Start drawing all characters, objects, and fonts.
             spriteBatch.Begin();
 
             player.Draw(spriteBatch);
 
+            spriteBatch.DrawString(DebugText, "Sprite facing direction: " + player.SPRITE_DIRECTION.ToString() +
+                                               " | Sprite moving direction: " + player.SPRITE_MOVEMENT_DIRECTION,
+                                               Vector2.Zero, Color.White);
+
             spriteBatch.End();
 
+            //Output loaded frame to the screen.
             base.Draw(gameTime);
         }
     }

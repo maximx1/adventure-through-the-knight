@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,20 +10,19 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-//using adventure_through_the_knight.Output.Base;
+using adventure_through_the_knight.Output.Base;
 using adventure_through_the_knight.Input;
+using adventure_through_the_knight.Utilities.Math;
 
 namespace adventure_through_the_knight.Output.Character
 {
     class Player : Sprite
     {
-		private InputController Input;                              //The game's input manager
+        private InputController Input;                              //The game's input manager
         private InputController.InputDeviceType CurrentInputType;   //The players input type choice
 
         public bool CloseGame { get; set; }     //A bool to allow the game to quit when the update loop occurs.
 
-        private Direction playerDirection;
-        public Direction PlayerDirection { get { return playerDirection; } }
         public Dictionary<Direction, int> SpriteSheetRows
         {
             get { return spriteSheetRows; }
@@ -47,7 +46,7 @@ namespace adventure_through_the_knight.Output.Character
         {
             this.CloseGame = false;
             this.Speed = 60;
-            this.CurrentInputType = InputController.InputDeviceType.GAMEPAD;
+            this.CurrentInputType = InputController.InputDeviceType.KEYBOARD;
             this.Input = new InputController(CurrentInputType);
         }
 
@@ -58,53 +57,23 @@ namespace adventure_through_the_knight.Output.Character
 		///  Game time. 
 		/// </param>
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
-        {
-            Dictionary<G_key.G_KEY, Vector2> KeyDictionary;
-            KeyDictionary = new Dictionary<G_key.G_KEY, Vector2>
-            {
-                {G_key.G_KEY.LEFT, new Vector2(-1, 0)},
-                {G_key.G_KEY.RIGHT, new Vector2(1, 0)},
-                {G_key.G_KEY.UP, new Vector2(0, -1)},
-                {G_key.G_KEY.DOWN, new Vector2(0, 1)}
-            };
-
-            foreach (var key in KeyDictionary)
-            {
-                if (Input.IsPressed(key.Key))
-                {
-                    if (key.Key == G_key.G_KEY.LEFT)
-                    {
-                        spriteDirection = Direction.Left;
-                    }
-                    else if (key.Key == G_key.G_KEY.RIGHT)
-                    {
-                        spriteDirection = Direction.Left;
-                    }
-                    else if (key.Key == G_key.G_KEY.UP)
-                    {
-                        spriteDirection = Direction.Up;
-                    }
-                    else if (key.Key == G_key.G_KEY.DOWN)
-                    {
-                        spriteDirection = Direction.Down;
-                    }
-                }
-            }
-
-
+		{
 			//Update the game input controller
 			Input.GetState();
-            if (Input.PAUSE)
-            {
-                CloseGame = true;
-                return;
-            }
+			if(Input.PAUSE)
+			{
+				CloseGame = true;
+				return;
+			}
 
-            //Implements run function.
+            //Implements run functionality.
             if (Input.LSHIFT)
                 Speed = 100;
             else
                 Speed = 60;
+
+            //Call method to update the player's direction.
+            UpdateSpriteDirectionVector();
 
 			//Update the character movement
             UpdateVelocity();
@@ -126,6 +95,21 @@ namespace adventure_through_the_knight.Output.Character
             }
             
             Velocity = Input.LEFT_THUMBSTICK;
+        }
+
+        /// <summary>
+        /// Updates the direction of the character based on the mouse of the gamepad.
+        /// </summary>
+        private void UpdateSpriteDirectionVector()
+        {
+            if (CurrentInputType == InputController.InputDeviceType.GAMEPAD)
+            {
+                SpriteDirectionVector = Input.RIGHT_THUMBSTICK;
+            }
+            else
+            {
+                SpriteDirectionVector = Vector2.Subtract(Input.MOUSE_POSITION, base.FindCenterOfSprite());
+            }
         }
     }
 }

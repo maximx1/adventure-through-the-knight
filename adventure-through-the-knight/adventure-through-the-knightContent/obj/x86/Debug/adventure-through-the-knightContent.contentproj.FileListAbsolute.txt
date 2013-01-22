@@ -1,3 +1,2 @@
-C:\Users\Maximx1\Documents\Development\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knightContent\obj\x86\Debug\adventure-through-the-knightContent.contentprojResolveAssemblyReference.cache
 C:\Users\Nate\Documents\GitHub\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knightContent\obj\x86\Debug\adventure-through-the-knightContent.contentprojResolveAssemblyReference.cache
 C:\Documents and Settings\Development016\My Documents\GameDev\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knightContent\obj\x86\Debug\ResolveAssemblyReference.cache

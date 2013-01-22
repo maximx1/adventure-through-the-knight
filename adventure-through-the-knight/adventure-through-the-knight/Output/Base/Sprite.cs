@@ -1,7 +1,8 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+#region XNA framework usings
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -10,27 +11,39 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.Xml.Linq;
+#endregion
+#region internal using statements
+using adventure_through_the_knight.Utilities.Math;
+using adventure_through_the_knight.Output.Walls;
+#endregion
 
-namespace adventure_through_the_knight.Output
+namespace adventure_through_the_knight.Output.Base
 {
-    class Sprite
+    public class Sprite
     {
-        private Vector2 position;                                   //Location of the sprite in the world.
-        private readonly Texture2D texture;                         //The texture for the sprite.
-        private readonly Rectangle movementBounds;                  //The available movement bounds.
-        protected Vector2 Velocity { get; set; }                    //The direction of the sprite.
         public float Width { get { return texture.Width; } }        //The Width of the texture.
         public float Height { get { return texture.Height; } }      //The Height of the texture.
         public readonly int rows;                                   //The number of available animations.
         public readonly int columns;                                //The number of animations per row.
+        public enum Direction { Right, Up_Right, Up, Up_Left, Left, Down_Left, Down, Down_Right, Still };   //Lists the available directions. Do not change order.
+        
+        protected Vector2 position;                                 //Location of the sprite in the world.
+        private readonly Texture2D texture;                         //The texture for the sprite.
+        private readonly Rectangle movementBounds;                  //The available movement bounds.
         private readonly double framesPerSecond;                    //The speed of how fast the frames should update.
         private int totalFrames;                                    //The number of frames available for an animation.
-        private double timeSinceLastFrame;                          //A counter to determine if animation should advance.
         private int currentFrame = 1;                               //The current frame of animation.
+        private double timeSinceLastFrame;                          //A counter to determine if animation should advance.
+        private Direction SpriteDirection;                          //The direction the Sprite is facing.
+        private Direction LastDirection;                            //The Last direction that the sprite was walking.
+        private Direction MovementDirection;                        //The direction of motion.
+        private WallManager wallManager;                            // wall manager for collision detection
+        
+        protected Dictionary<Direction, int> spriteSheetRows;       //Dictionary holding the different animations of the character.
+        protected Vector2 Velocity { get; set; }                    //The direction of the sprite.
+        protected Vector2 SpriteDirectionVector;                    //The direction of the Sprite.
         protected bool moved;                                       //Test if input says move.
         protected int health;                                       //Available health for the sprite.
-        public enum Direction { Left, Right, Up, Down, Still };
-        protected Dictionary<Direction, int> spriteSheetRows;
         protected XElement spriteMap;
         protected Direction spriteDirection;
 
@@ -48,6 +61,16 @@ namespace adventure_through_the_knight.Output
         private Rectangle CreateBoundingBoxFromPosition(Vector2 position)
         {
             return new Rectangle((int)position.X, (int)position.Y, (int)Width / columns, (int)Height / rows);
+        }
+
+        /// <summary>
+        /// Finds the centerpoint of the sprite based on the image size.
+        /// </summary>
+        /// <returns></returns>
+        protected Vector2 FindCenterOfSprite()
+        {
+            Vector2 centerPoint = new Vector2(position.X + ((Width / columns) / 2), position.Y + ((Height / rows) / 2));
+            return centerPoint;
         }
 
         //The Magnitude of the velocity.
@@ -96,6 +119,8 @@ namespace adventure_through_the_knight.Output
             this.columns = columns;
             this.framesPerSecond = framesPerSecond;
             this.totalFrames = rows * columns;
+            this.SpriteDirectionVector = Vector2.Zero;
+            this.LastDirection = Direction.Down;
         }
 
 		/// <summary>
@@ -104,7 +129,7 @@ namespace adventure_through_the_knight.Output
 		/// <param name='spriteBatch'>
 		/// Sprite batch.
 		/// </param>
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             var sourceRectangle = SpriteSheetCalculator.CalculateSourceRect((int)Width, (int)Height, columns, rows, currentFrame, moved, spriteMap);
             var destinationRectangle = SpriteSheetCalculator.CalculateDestinationRect(position, sourceRectangle);
@@ -121,6 +146,12 @@ namespace adventure_through_the_knight.Output
         private bool Blocked(Vector2 newPosition)
         {
             var boundingBox = CreateBoundingBoxFromPosition(newPosition);
+            
+            // Check for any collisions with walls.
+            if (CollisionManager.CheckForWallCollison(wallManager, boundingBox) == true)
+            {
+                return true;
+            }
             return !movementBounds.Contains(boundingBox);
         }
 
@@ -133,6 +164,7 @@ namespace adventure_through_the_knight.Output
         public virtual void Update(GameTime gameTime)
         {   
             var newPosition = position + (Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds) * Speed;
+            UpdateDirection();
             if (Blocked(newPosition))       //Check if at the bounds of the Game.
             {
                 return;
@@ -181,5 +213,89 @@ namespace adventure_through_the_knight.Output
         {
             this.spriteMap = spriteMap;
         }
+
+        /// <summary>
+        /// Converts the vector into a set direction.
+        /// </summary>
+        private void UpdateDirection()
+        {
+            //Stop if there is no motion
+            if (SpriteDirectionVector == Vector2.Zero)
+            {
+                this.SpriteDirection = LastDirection;
+                //this.MovementDirection = Direction.Still;
+                //return;
+                UpdateMovement();
+            }
+            else
+            {
+
+                SpriteDirection = UnitConverter.DegreesTo8Point(
+                                    UnitConverter.RadToDegrees(
+                                    UnitConverter.VectorToRad(SpriteDirectionVector))
+                );
+                UpdateMovement();
+                LastDirection = SpriteDirection;
+            }
+            return;
+
+            #region Angle converting un-modular
+            //float angleFromVector = UnitConverter.RadToDegrees(UnitConverter.VectorToRad(SpriteDirectionVector));
+
+            ////Adjust the angle to register direction right with only one 45 degree increment.
+            //angleFromVector += 22.5f;
+
+            //if (angleFromVector < 0)
+            //    angleFromVector += 360f;
+
+            //for (int i = 0; i < 8; i++)
+            //{
+            //    if (Range.InRange(angleFromVector, (float)i * 45, (float)i * 45 + 45))
+            //    {
+            //        SpriteDirection = (Direction)i;
+            //        MovementDirection = this.moved ? SpriteDirection : Direction.Still;
+            //        LastDirection = SpriteDirection;
+            //        return;
+            //    }
+            //}
+
+            ////default to no motion
+            //SpriteDirection = Direction.Down;
+            //MovementDirection = Direction.Still;
+            #endregion
+        }
+
+        private void UpdateMovement()
+        {
+            if (this.moved)
+            {
+                MovementDirection = UnitConverter.DegreesTo8Point(
+                                    UnitConverter.RadToDegrees(
+                                    UnitConverter.VectorToRad(Velocity)));
+            }
+            else
+            {
+                this.MovementDirection = Direction.Still;
+            }
+        }
+
+        /// <summary>
+        /// Sets the sprite's wall manager
+        /// </summary>
+        /// <param name="wallManager">the room of walls to check for collisions against</param>
+        public void SetWallManager(WallManager wallManager)
+        {
+            this.wallManager = wallManager;
+        }
+
+        /// <summary>
+        /// Gets the player's facing direction.
+        /// </summary>
+        public Direction SPRITE_DIRECTION { get { return SpriteDirection; } }
+
+        /// <summary>
+        /// Gets the player's movement direction.
+        /// </summary>
+        public Direction SPRITE_MOVEMENT_DIRECTION { get { return MovementDirection; } }
     }
 }
