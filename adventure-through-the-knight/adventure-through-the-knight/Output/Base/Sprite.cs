@@ -15,6 +15,7 @@ using System.Xml.Linq;
 #region internal using statements
 using adventure_through_the_knight.Utilities.Math;
 using adventure_through_the_knight.Output.Walls;
+using System.IO;
 #endregion
 
 namespace adventure_through_the_knight.Output.Base
@@ -45,7 +46,7 @@ namespace adventure_through_the_knight.Output.Base
         protected bool moved;                                       //Test if input says move.
         protected int health;                                       //Available health for the sprite.
         protected XElement spriteMap;
-        protected Direction spriteDirection;
+        protected Rectangle currentSourceRect;
 
         //The available movement bounds for the player.
         public Rectangle BoundingBox
@@ -60,7 +61,7 @@ namespace adventure_through_the_knight.Output.Base
         /// <returns></returns>
         private Rectangle CreateBoundingBoxFromPosition(Vector2 position)
         {
-            return new Rectangle((int)position.X, (int)position.Y, (int)Width / columns, (int)Height / rows);
+            return new Rectangle(currentSourceRect.X, currentSourceRect.Y, currentSourceRect.Width, currentSourceRect.Height);
         }
 
         /// <summary>
@@ -69,7 +70,7 @@ namespace adventure_through_the_knight.Output.Base
         /// <returns></returns>
         protected Vector2 FindCenterOfSprite()
         {
-            Vector2 centerPoint = new Vector2(position.X + ((Width / columns) / 2), position.Y + ((Height / rows) / 2));
+            Vector2 centerPoint = new Vector2(position.X + (currentSourceRect.Width / 2), position.Y + (currentSourceRect.Height / 2));
             return centerPoint;
         }
 
@@ -131,9 +132,9 @@ namespace adventure_through_the_knight.Output.Base
 		/// </param>
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            var sourceRectangle = SpriteSheetCalculator.CalculateSourceRect((int)Width, (int)Height, columns, rows, currentFrame, moved, spriteMap);
+            var sourceRectangle = SpriteSheetCalculator.CalculateSourceRect((int)Width, (int)Height, columns, rows, currentFrame, moved, spriteMap, SPRITE_DIRECTION);
             var destinationRectangle = SpriteSheetCalculator.CalculateDestinationRect(position, sourceRectangle);
-
+            currentSourceRect = sourceRectangle;
             spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White);
         }
 
@@ -209,9 +210,9 @@ namespace adventure_through_the_knight.Output.Base
             return 1 / framesPerSecond;
         }
 
-        public void SetSpriteMap(XElement spriteMap)
+        public void SetSpriteMap(string path)
         {
-            this.spriteMap = spriteMap;
+            this.spriteMap = XElement.Parse(File.ReadAllText(Path.GetFullPath(path)));
         }
 
         /// <summary>
@@ -297,5 +298,7 @@ namespace adventure_through_the_knight.Output.Base
         /// Gets the player's movement direction.
         /// </summary>
         public Direction SPRITE_MOVEMENT_DIRECTION { get { return MovementDirection; } }
+
+        public Rectangle CurrentSourceRectangle {get {return currentSourceRect;}}
     }
 }

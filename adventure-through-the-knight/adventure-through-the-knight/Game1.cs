@@ -63,6 +63,7 @@ namespace adventure_through_the_knight
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             player = new Player(Content.Load<Texture2D>("player1"), new Vector2(200, 200), graphics.GraphicsDevice.Viewport.Bounds);    //Player 1
+            player.SetSpriteMap(@"..\..\..\Output\\Character\\PlayerMap.xml");
             DebugText = Content.Load<SpriteFont>(@"SpriteFonts\DebugOverlay");	//In Mono make sure that spritefonts are ".xnb"
             //player.SetWallManager(MainWallManager);
         }

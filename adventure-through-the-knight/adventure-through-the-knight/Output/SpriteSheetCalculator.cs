@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.Xml.Linq;
+using adventure_through_the_knight.Output.Base;
 
 namespace adventure_through_the_knight.Output
 {
@@ -41,6 +42,7 @@ namespace adventure_through_the_knight.Output
         /// </param>
         public static Rectangle CalculateSourceRect(int textureWidth, int textureHeight, int columns, int rows, int currentFrame, bool Moved, XElement spriteSheetMap, Sprite.Direction direction)
         {
+            currentFrame += 1;
             var SourceMap = getSourceMap(spriteSheetMap, Moved, direction, currentFrame);
             int imageWidth = (int)SourceMap.Attribute("Width");
             int imageHeight = (int)SourceMap.Attribute("Height");
@@ -53,19 +55,55 @@ namespace adventure_through_the_knight.Output
 
         private static XElement getSourceMap(XElement spriteSheetMap, bool moved, Sprite.Direction direction, int currentFrame)
         {
-            List<XElement> movementFrames = new List<XElement>();
-            if (moved)
+            string stringDirection = GetDirectionName(direction);
+            XElement movementFrames = null;
+            try
             {
-                movementFrames = spriteSheetMap.Elements("Moving").ToList();
+                if (moved)
+                {
+                    movementFrames = spriteSheetMap.Element("Moving");
+                }
+                else
+                {
+                    movementFrames = spriteSheetMap.Element("NotMoving");
+                }
             }
-            else
+            catch
             {
-                movementFrames = spriteSheetMap.Elements("NotMoving").ToList();
             }
-            var returnFrame = movementFrames.Elements(((int)direction).ToString()).Where(x => (int)x.Attribute("ID") == currentFrame).FirstOrDefault();
+            var DirectionFrames = movementFrames.Elements(stringDirection).ToList();
+            var Frames = DirectionFrames.Elements("Frame").ToList();
+            var TargetFrame = Frames.Where(x => x.Attribute("ID").Value == currentFrame.ToString()).FirstOrDefault();
+            
 
-            return returnFrame;
+            return TargetFrame;
         }
+
+        private static string GetDirectionName(Sprite.Direction direction)
+        {
+            switch (direction)
+            {
+                case Sprite.Direction.Right:
+                    return "Right";
+                case Sprite.Direction.Up_Right:
+                    return "Right-Up";
+                case Sprite.Direction.Up:
+                    return "Up";
+                case Sprite.Direction.Up_Left:
+                    return "Left-Up";
+                case Sprite.Direction.Left:
+                    return "Left";
+                case Sprite.Direction.Down_Left:
+                    return "Left-Down";
+                case Sprite.Direction.Down:
+                    return "Down";
+                case Sprite.Direction.Down_Right:
+                    return "Right-Down";
+                default:
+                    return "";
+            }
+        }
+
 
 		/// <summary>
 		/// Calculates the location where the sprite is going to be.
