@@ -74,19 +74,19 @@ namespace adventure_through_the_knight.Output.Character
                 {
                     if (key.Key == G_key.G_KEY.LEFT)
                     {
-                        playerDirection = Direction.Left;
+                        spriteDirection = Direction.Left;
                     }
                     else if (key.Key == G_key.G_KEY.RIGHT)
                     {
-                        playerDirection = Direction.Left;
+                        spriteDirection = Direction.Left;
                     }
                     else if (key.Key == G_key.G_KEY.UP)
                     {
-                        playerDirection = Direction.Up;
+                        spriteDirection = Direction.Up;
                     }
                     else if (key.Key == G_key.G_KEY.DOWN)
                     {
-                        playerDirection = Direction.Down;
+                        spriteDirection = Direction.Down;
                     }
                 }
             }

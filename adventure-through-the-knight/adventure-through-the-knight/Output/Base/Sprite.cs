@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.Xml.Linq;
 
 namespace adventure_through_the_knight.Output
 {
@@ -30,6 +31,8 @@ namespace adventure_through_the_knight.Output
         protected int health;                                       //Available health for the sprite.
         public enum Direction { Left, Right, Up, Down, Still };
         protected Dictionary<Direction, int> spriteSheetRows;
+        protected XElement spriteMap;
+        protected Direction spriteDirection;
 
         //The available movement bounds for the player.
         public Rectangle BoundingBox
@@ -103,7 +106,7 @@ namespace adventure_through_the_knight.Output
 		/// </param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            var sourceRectangle = SpriteSheetCalculator.CalculateSourceRect((int)Width, (int)Height, columns, rows, currentFrame, moved);
+            var sourceRectangle = SpriteSheetCalculator.CalculateSourceRect((int)Width, (int)Height, columns, rows, currentFrame, moved, spriteMap);
             var destinationRectangle = SpriteSheetCalculator.CalculateDestinationRect(position, sourceRectangle);
 
             spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White);
@@ -172,6 +175,11 @@ namespace adventure_through_the_knight.Output
         private double SecondsBetweenFrames()
         {
             return 1 / framesPerSecond;
+        }
+
+        public void SetSpriteMap(XElement spriteMap)
+        {
+            this.spriteMap = spriteMap;
         }
     }
 }
