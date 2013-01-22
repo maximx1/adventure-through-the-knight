@@ -19,7 +19,7 @@ namespace adventure_through_the_knight.Output.Character
     class Player : Sprite
     {
         private InputController Input;                              //The game's input manager
-        private InputController.InputDeviceType CurrentInputType;   //The players input type choice
+        public InputController.InputDeviceType CurrentInputType;   //The players input type choice
 
         public bool CloseGame { get; set; }     //A bool to allow the game to quit when the update loop occurs.
 

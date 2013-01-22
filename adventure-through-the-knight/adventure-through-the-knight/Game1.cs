@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+#region XNA framework usings
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -8,11 +9,13 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-
+#endregion
+#region Project usings
 using adventure_through_the_knight.Input;
 using adventure_through_the_knight.Output.Character;
 using adventure_through_the_knight.Utilities.Error_Log;
 using adventure_through_the_knight.Output.Walls;
+#endregion
 
 namespace adventure_through_the_knight
 {
@@ -21,14 +24,17 @@ namespace adventure_through_the_knight
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        private GraphicsDeviceManager graphics;
+
+        //Displayable entities.
+        private SpriteBatch spriteBatch;
+        private SpriteFont DebugText;
+        private Player player;
         public WallManager MainWallManager;
 
-        SpriteFont DebugText;
+        //System wide Settings
 
-        Color ScreenColor;
-        Player player;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -50,7 +56,6 @@ namespace adventure_through_the_knight
             base.Initialize();
 
             //TV Manafacturers use black in between frames to help smooth out frame intervals.
-            ScreenColor = Color.Black;
             MainWallManager = new WallManager(graphics.GraphicsDevice);
         }
 
@@ -99,7 +104,7 @@ namespace adventure_through_the_knight
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(ScreenColor);
+            GraphicsDevice.Clear(Color.Black);
 
             //Start drawing all characters, objects, and fonts.
             spriteBatch.Begin();
