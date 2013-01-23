@@ -32,10 +32,13 @@ namespace adventure_through_the_knight.Utilities.Error_Log
 			try
 			{
 				StreamWriter outfile = new StreamWriter (Filepath, true);
+                outfile.WriteLine("--------------------------------------------------------------------------");
+                outfile.WriteLine("                             Error Summary                                ");
+                outfile.WriteLine("--------------------------------------------------------------------------");
 				outfile.WriteLine (errorMessage);
 				outfile.Close ();
 			}
-			catch (IOException er)
+			catch
 			{
 				throw;
 			}

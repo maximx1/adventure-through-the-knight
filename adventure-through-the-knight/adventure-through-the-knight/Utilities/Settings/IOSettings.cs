@@ -18,17 +18,29 @@ namespace adventure_through_the_knight.Utilities.Settings
         public int WindowWidth { get; set; }
         public int WindowHeight { get; set; }
         public bool IsFullScreen { get; set; }
+        public enum OS { Windows, Linux };
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="filePath">The pilepath that is that the file is stored in.</param>
         public IOSettings(String filePath)
         {
+            filePath = OSBasedStringConverting(filePath);
             try
             {
                 if (!File.Exists(filePath))
-                {
+                {// If the file doesn't exist.
                     File.Create(filePath);
+                    DefaultSettings();
+                    SaveSettings(filePath);
+                }
+                else
+                {
+                    XDocument doc = XDocument.Load(filePath);
+                    XElement settings = XElement.Parse(doc.ToString());
                 }
 
-                XElement settings = XElement.Parse(File.ReadAllText(filePath));
                 
             }
             catch (IOException er)
@@ -37,6 +49,9 @@ namespace adventure_through_the_knight.Utilities.Settings
             }
         }
         
+        /// <summary>
+        /// Start with default settings if no file is present.
+        /// </summary>
         private void DefaultSettings()
         {
             this.CurrentInputType = InputController.InputDeviceType.KEYBOARD;
@@ -45,6 +60,54 @@ namespace adventure_through_the_knight.Utilities.Settings
             this.IsFullScreen = false;
         }
 
+        /// <summary>
+        /// Stores the settings into a file.
+        /// TODO: Use Serialize later on instead of XML.
+        /// </summary>
+        public void SaveSettings(String filePath)
+        {
+            XElement settings =
+                new XElement("settings",
+                    new XElement("window",
+                        new XElement("height", WindowHeight),
+                        new XElement("width", WindowWidth),
+                        new XElement("fullscreen", IsFullScreen)),
+                    new XElement("input", CurrentInputType)
+                    );
+            XDocument doc = new XDocument(settings);
+            doc.Save(filePath);
+        }
 
+        #region Static Methods
+        /// <summary>
+        /// Static detector class to see which OS the system is running on.
+        /// </summary>
+        /// <returns>The OS that the system is running on.</returns>
+        /// <remarks>
+        /// Current OS' that have been tested that have running support:
+        ///     Windows
+        ///     Linux
+        /// </remarks>
+        public static OS DetectOS()
+        {
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                return OS.Windows;
+            else
+                return OS.Linux;
+        }
+
+        /// <summary>
+        /// Cleanses filepath strings based on the OS type.
+        /// </summary>
+        /// <param name="stringToConvert">String to check.</param>
+        /// <returns>returns a filepath that has the correct directory "/"'s</returns>
+        public static String OSBasedStringConverting(String stringToConvert)
+        {
+            if (DetectOS() == OS.Windows)
+                return stringToConvert.Replace(@"/", @"\");
+            else
+                return stringToConvert.Replace(@"\", @"/");
+        }
+        #endregion
     }
 }

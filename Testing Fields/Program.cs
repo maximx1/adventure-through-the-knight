@@ -2,32 +2,49 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
+using System.Xml.Linq;
 
 namespace Testing_Fields
 {
     class Program
     {
+        public enum setting { GAMEPAD, KEYBOARD };
         static void Main(string[] args)
         {
-            float left = (float)Math.Atan2(0, -1);
-            float right = (float)Math.Atan2(0, 1);
-            float up = (float)Math.Atan2(1, 0);
-            float down = (float)Math.Atan2(-.2, -.8);
-
-            Console.WriteLine(right);
-            Console.WriteLine(up);
-            Console.WriteLine(left);
-            Console.WriteLine(down);
+            XDocument doc = XDocument.Load("dirtypete.xml");
+            XElement settings = XElement.Parse(doc.ToString());
+            Console.WriteLine(settings.ToString());
             Console.WriteLine();
-            Console.WriteLine(UnitConverter.RadToDegrees(right));
-            Console.WriteLine(UnitConverter.RadToDegrees(up));
-            Console.WriteLine(UnitConverter.RadToDegrees(left));
-            Console.WriteLine(UnitConverter.RadToDegrees(down));
+
+            var windowSetting = settings.Element("window");
+            var input = settings.Element("input");
+
+            Console.WriteLine("Window Height: " + windowSetting.Element("height").Value);
+            Console.WriteLine("Window Width: " + windowSetting.Element("width").Value);
+            Console.WriteLine("Window Full Screen: " + windowSetting.Element("fullscreen").Value);
+            if (Boolean.Parse(windowSetting.Element("fullscreen").Value))
+            {
+                if ((setting)Enum.Parse(typeof(setting), input.Value) == setting.GAMEPAD)
+                {
+                    Console.WriteLine("Window pudding Height: " + input.Value);
+                }
+            }
+            //save();
         }
 
-        static String tmp(int num, String tmp = "gorga")
+        static void save()
         {
-            return tmp;
+            XElement settings =
+                new XElement("settings",
+                    new XElement("window",
+                        new XElement("height", 600),
+                        new XElement("width", 800),
+                        new XElement("fullscreen", true)),
+                    new XElement("input", setting.GAMEPAD)
+                    );
+            XDocument doc = new XDocument(settings);
+            doc.Save("dirtypete.xml");
         }
     }
 }

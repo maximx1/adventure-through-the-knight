@@ -13,8 +13,9 @@ using Microsoft.Xna.Framework.Media;
 #region Project usings
 using adventure_through_the_knight.Input;
 using adventure_through_the_knight.Output.Character;
-using adventure_through_the_knight.Utilities.Error_Log;
 using adventure_through_the_knight.Output.Walls;
+using adventure_through_the_knight.Utilities.Error_Log;
+using adventure_through_the_knight.Utilities.Settings;
 #endregion
 
 namespace adventure_through_the_knight
@@ -37,6 +38,7 @@ namespace adventure_through_the_knight
 
         public Game1()
         {
+            //"local/GameSettings.xml"
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferHeight = 600;       //The Height of the Window
             graphics.PreferredBackBufferWidth = 800;        //The Width of the Window
