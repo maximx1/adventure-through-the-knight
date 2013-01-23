@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace adventure_through_the_knight.Input
 {
-    class InputController
+    public class InputController
     {
         //Active input functions
         private bool[] ButtonList;

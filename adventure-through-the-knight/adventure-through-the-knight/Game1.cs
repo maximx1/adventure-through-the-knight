@@ -31,6 +31,8 @@ namespace adventure_through_the_knight
         private SpriteBatch spriteBatch;
         private SpriteFont DebugText;
         private Player player;
+
+        public IOSettings System_wideSettings;
         public WallManager MainWallManager;
 
         //System wide Settings
@@ -38,13 +40,13 @@ namespace adventure_through_the_knight
 
         public Game1()
         {
-            //"local/GameSettings.xml"
-            graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferHeight = 600;       //The Height of the Window
-            graphics.PreferredBackBufferWidth = 800;        //The Width of the Window
-            Content.RootDirectory = "Content";
-            graphics.IsFullScreen = false;				    //Turn off full screen.
-            this.IsMouseVisible = true;
+            System_wideSettings = new IOSettings("local/GameSettings.xml");
+            graphics = new GraphicsDeviceManager(this);                                 //The object containing the 
+            Content.RootDirectory = "Content";                                          //The root of the content after the pipeline.
+            graphics.PreferredBackBufferHeight = System_wideSettings.WindowHeight;      //The Height of the Window
+            graphics.PreferredBackBufferWidth = System_wideSettings.WindowWidth;        //The Width of the Window
+            graphics.IsFullScreen = System_wideSettings.IsFullScreen;				    //See what window size we need to use.
+            this.IsMouseVisible = true;                                                 //Make sure the mouse is invisible. Don't use once we get new textures for it.
         }
 
         /// <summary>
@@ -69,7 +71,7 @@ namespace adventure_through_the_knight
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            player = new Player(Content.Load<Texture2D>("player1"), new Vector2(200, 200), graphics.GraphicsDevice.Viewport.Bounds);    //Player 1
+            player = new Player(Content.Load<Texture2D>("player1"), new Vector2(200, 200), graphics.GraphicsDevice.Viewport.Bounds, ref System_wideSettings);    //Player 1
             DebugText = Content.Load<SpriteFont>(@"SpriteFonts\DebugOverlay");	//In Mono make sure that spritefonts are ".xnb"
             //player.SetWallManager(MainWallManager);
         }
@@ -95,7 +97,9 @@ namespace adventure_through_the_knight
             //Safely closes the game.
             //We should possible add some more functions to close databases and store last minute saves.
             if (player.CloseGame)
+            {
                 Exit();
+            }
 
             base.Update(gameTime);
         }

@@ -10,16 +10,20 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+#region Project usings
 using adventure_through_the_knight.Output.Base;
 using adventure_through_the_knight.Input;
 using adventure_through_the_knight.Utilities.Math;
+using adventure_through_the_knight.Utilities.Settings;
+#endregion
 
 namespace adventure_through_the_knight.Output.Character
 {
     class Player : Sprite
     {
         private InputController Input;                              //The game's input manager
-        public InputController.InputDeviceType CurrentInputType;   //The players input type choice
+        private IOSettings System_wideSettings;
+        public InputController.InputDeviceType CurrentInputType;    //The players input type choice
 
         public bool CloseGame { get; set; }     //A bool to allow the game to quit when the update loop occurs.
 
@@ -41,12 +45,13 @@ namespace adventure_through_the_knight.Output.Character
 		/// <param name='movementBounds'>
 		/// Movement bounds.
 		/// </param>
-        public Player(Texture2D texture, Vector2 position, Rectangle movementBounds)
+        public Player(Texture2D texture, Vector2 position, Rectangle movementBounds, ref IOSettings system_wideSettings)
             : base(texture, position, movementBounds, 1, 4, 11, 1, 1, 1, 1, 1)
         {
             this.CloseGame = false;
             this.Speed = 60;
-            this.CurrentInputType = InputController.InputDeviceType.KEYBOARD;
+            this.System_wideSettings = system_wideSettings;
+            this.CurrentInputType = System_wideSettings.CurrentInputType;
             this.Input = new InputController(CurrentInputType);
         }
 
@@ -61,7 +66,7 @@ namespace adventure_through_the_knight.Output.Character
 			//Update the game input controller
 			Input.GetState();
 			if(Input.PAUSE)
-			{
+            {
 				CloseGame = true;
 				return;
 			}
@@ -79,6 +84,17 @@ namespace adventure_through_the_knight.Output.Character
             UpdateVelocity();
 
             base.Update(gameTime);
+        }
+
+        /// <summary>
+        /// Changes the player's input.
+        /// </summary>
+        private void ChangeInputType()
+        {
+
+            this.System_wideSettings.ChangeInputType();
+            this.CurrentInputType = System_wideSettings.CurrentInputType;
+            this.Input = new InputController(CurrentInputType);
         }
 
 		/// <summary>

@@ -12,13 +12,14 @@ using adventure_through_the_knight.Utilities.Error_Log;
 
 namespace adventure_through_the_knight.Utilities.Settings
 {
-    class IOSettings
+    public class IOSettings
     {
         public InputController.InputDeviceType CurrentInputType { get; set; }
         public int WindowWidth { get; set; }
         public int WindowHeight { get; set; }
         public bool IsFullScreen { get; set; }
         public enum OS { Windows, Linux };
+        public String FilePath { get; set; }
 
         /// <summary>
         /// Constructor
@@ -26,19 +27,22 @@ namespace adventure_through_the_knight.Utilities.Settings
         /// <param name="filePath">The pilepath that is that the file is stored in.</param>
         public IOSettings(String filePath)
         {
-            filePath = OSBasedStringConverting(filePath);
+            FilePath = OSBasedStringConverting(filePath);
             try
             {
+                if (!Directory.Exists("local"))
+                {
+                    Directory.CreateDirectory("local");
+                }
                 if (!File.Exists(filePath))
                 {// If the file doesn't exist.
-                    File.Create(filePath);
+                    File.Create(filePath).Close();
                     DefaultSettings();
-                    SaveSettings(filePath);
+                    SaveSettings();
                 }
                 else
                 {
-                    XDocument doc = XDocument.Load(filePath);
-                    XElement settings = XElement.Parse(doc.ToString());
+                    LoadSettings();
                 }
 
                 
@@ -64,18 +68,58 @@ namespace adventure_through_the_knight.Utilities.Settings
         /// Stores the settings into a file.
         /// TODO: Use Serialize later on instead of XML.
         /// </summary>
-        public void SaveSettings(String filePath)
+        private void SaveSettings()
         {
             XElement settings =
                 new XElement("settings",
                     new XElement("window",
-                        new XElement("height", WindowHeight),
-                        new XElement("width", WindowWidth),
-                        new XElement("fullscreen", IsFullScreen)),
-                    new XElement("input", CurrentInputType)
+                        new XElement("height", this.WindowHeight),
+                        new XElement("width", this.WindowWidth),
+                        new XElement("fullscreen", this.IsFullScreen)),
+                    new XElement("input", this.CurrentInputType)
                     );
             XDocument doc = new XDocument(settings);
-            doc.Save(filePath);
+            try
+            {
+                doc.Save(this.FilePath);
+            }
+            catch (Exception er)
+            {
+                Error_Log.Error_Log.RecordError(er.ToString());
+            }
+            
+        }
+
+        /// <summary>
+        /// Load the settings from the filePath XML file.
+        /// </summary>
+        /// <param name="filePath">The file path to the settings .xml files.</param>
+        public void LoadSettings()
+        {
+            //Load all of the settings.
+            XElement settings = XElement.Parse(XDocument.Load(this.FilePath).ToString());
+
+            //Pull out the subroot elements.
+            var windowSetting = settings.Element("window");
+            var input = settings.Element("input");
+
+            //Load to the *this
+            this.WindowHeight = Int32.Parse(windowSetting.Element("height").Value);
+            this.WindowWidth = Int32.Parse(windowSetting.Element("width").Value);
+            this.IsFullScreen = Boolean.Parse(windowSetting.Element("fullscreen").Value);
+            this.CurrentInputType = (InputController.InputDeviceType)Enum.Parse(typeof(InputController.InputDeviceType), input.Value);
+        }
+
+        /// <summary>
+        /// Changes the setting for the input controller.
+        /// </summary>
+        public void ChangeInputType()
+        {
+            if (this.CurrentInputType == InputController.InputDeviceType.GAMEPAD)
+                this.CurrentInputType = InputController.InputDeviceType.KEYBOARD;
+            else
+                this.CurrentInputType = InputController.InputDeviceType.GAMEPAD;
+            SaveSettings();
         }
 
         #region Static Methods

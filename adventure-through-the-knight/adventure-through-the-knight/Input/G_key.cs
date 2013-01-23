@@ -8,7 +8,7 @@ namespace adventure_through_the_knight.Input
     /// <summary>
     /// A helper class to help a dictionary with making generic input commands.
     /// </summary>
-    class G_key
+    public class G_key
     {
         /// <summary>
         /// Quantitizes The specific input commands.
