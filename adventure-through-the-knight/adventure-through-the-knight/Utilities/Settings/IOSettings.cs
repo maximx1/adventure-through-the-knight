@@ -17,7 +17,7 @@ namespace adventure_through_the_knight.Utilities.Settings
         public InputController.InputDeviceType CurrentInputType { get; set; }
         public int WindowWidth { get; set; }
         public int WindowHeight { get; set; }
-        public bool FullScreen { get; set; }
+        public bool IsFullScreen { get; set; }
 
         public IOSettings(String filePath)
         {
@@ -42,7 +42,7 @@ namespace adventure_through_the_knight.Utilities.Settings
             this.CurrentInputType = InputController.InputDeviceType.KEYBOARD;
             this.WindowWidth = 800;
             this.WindowHeight = 600;
-            this.FullScreen = false;
+            this.IsFullScreen = false;
         }
 
 

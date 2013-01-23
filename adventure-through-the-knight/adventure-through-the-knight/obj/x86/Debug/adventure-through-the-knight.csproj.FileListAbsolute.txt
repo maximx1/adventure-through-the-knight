@@ -20,3 +20,4 @@ C:\Users\Maximx1\Documents\Development\adventure-through-the-knight\adventure-th
 C:\Users\Maximx1\Documents\Development\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 C:\Users\Maximx1\Documents\Development\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\obj\x86\Debug\adventure-through-the-knight.exe
 C:\Users\Maximx1\Documents\Development\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\obj\x86\Debug\adventure-through-the-knight.pdb
+C:\Users\Maximx1\Documents\Development\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\obj\x86\Debug\adventure-through-the-knight.csprojResolveAssemblyReference.cache

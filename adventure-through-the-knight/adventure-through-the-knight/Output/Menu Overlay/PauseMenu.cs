@@ -18,7 +18,7 @@ using adventure_through_the_knight.Input;
 
 namespace adventure_through_the_knight.Output.Menu_Overlay
 {
-    public class PauseMenu : Sprite
-    {
-    }
+    //public class PauseMenu : Sprite
+    //{
+    //}
 }
