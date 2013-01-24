@@ -2,4 +2,6 @@
 +------------------------------------------------------------------------+
 |                              Error Summary                             |
 +------------------------------------------------------------------------+
-KEYBOARD
+There was an issue parsing the xml, check "OldSettings.xml": System.FormatException: String was not recognized as a valid Boolean.
+   at System.Boolean.Parse(String value)
+   at adventure_through_the_knight.Utilities.Settings.IOSettings.LoadSettings() in C:\Users\Maximx1\Documents\Development\adventure-through-the-knight\adventure-through-the-knight\adventure-through-the-knight\Utilities\Settings\IOSettings.cs:line 121

@@ -20,14 +20,17 @@ namespace Testing_Fields
             var windowSetting = settings.Element("window");
             var input = settings.Element("input");
 
-            Console.WriteLine("Window Height: " + windowSetting.Element("height").Value);
-            Console.WriteLine("Window Width: " + windowSetting.Element("width").Value);
-            Console.WriteLine("Window Full Screen: " + windowSetting.Element("fullscreen").Value);
-            if (Boolean.Parse(windowSetting.Element("fullscreen").Value))
+            var WindowValues = settings.Descendants().Where(s => s.Parent.Name == "window" && s.Parent.Parent.Name == "settings")
+                               .ToDictionary(s => s.Name.ToString(), s => s.Value.ToString());
+
+            //Console.WriteLine("Window Height: " + 
+            Console.WriteLine("Window Width: " + WindowValues["width"]);
+            Console.WriteLine("Window pudding Height: " + WindowValues["height"]);
+            if (Boolean.Parse(WindowValues["fullscreen"]))
             {
                 if ((setting)Enum.Parse(typeof(setting), input.Value) == setting.GAMEPAD)
                 {
-                    Console.WriteLine("Window pudding Height: " + input.Value);
+                    Console.WriteLine("Window Full Screen: " + WindowValues["fullscreen"]);
                 }
             }
             //save();

@@ -98,16 +98,35 @@ namespace adventure_through_the_knight.Utilities.Settings
         {
             //Load all of the settings.
             XElement settings = XElement.Parse(XDocument.Load(this.FilePath).ToString());
+            
+            //Create a dictionary of all the settings parsed from the XML.
 
-            //Pull out the subroot elements.
-            var windowSetting = settings.Element("window");
-            var input = settings.Element("input");
+            var windowValues = settings.Descendants()
+                               .Where(s => s.HasElements == false)
+                               .ToDictionary(s => s.Name.ToString(), s => s.Value.ToString());
 
-            //Load to the *this
-            this.WindowHeight = Int32.Parse(windowSetting.Element("height").Value);
-            this.WindowWidth = Int32.Parse(windowSetting.Element("width").Value);
-            this.IsFullScreen = Boolean.Parse(windowSetting.Element("fullscreen").Value);
-            this.CurrentInputType = (InputController.InputDeviceType)Enum.Parse(typeof(InputController.InputDeviceType), input.Value);
+            //var windowValues = settings.Descendants()
+            //                   .Where(s => s.Parent.Name == "window" && s.Parent.Parent.Name == "settings")
+            //                   .ToDictionary(s => s.Name.ToString(), s => s.Value.ToString());
+            //windowValues.Add(settings.Descendants()
+            //                 .Where(s => s.Parent.Name == "settings" && s.Name == "input").Select(s=>s.Name.ToString()).FirstOrDefault(),
+            //                 settings.Descendants()
+            //                 .Where(s => s.Parent.Name == "settings" && s.Name == "input").Select(s => s.Value).FirstOrDefault());
+
+            try
+            {
+                //Load to the *this
+                this.WindowHeight = Int32.Parse(windowValues["height"]);
+                this.WindowWidth = Int32.Parse(windowValues["width"]);
+                this.IsFullScreen = Boolean.Parse(windowValues["fullscreen"]);
+                this.CurrentInputType = (InputController.InputDeviceType)Enum.Parse(typeof(InputController.InputDeviceType), windowValues["input"]);
+            }
+            catch (Exception er)
+            {
+                Error_Log.Error_Log.RecordError("There was an issue parsing the xml: " + er.ToString());
+                DefaultSettings();
+                SaveSettings();
+            }
         }
 
         /// <summary>
